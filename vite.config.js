@@ -8,8 +8,15 @@ export default defineConfig(() => ({
   server: {
     port: 3000,
     proxy: {
-      '/api/socket': 'ws://localhost:8082',
-      '/api': 'http://localhost:8082',
+      '/api/socket': {
+        target: 'wss://gps.bysmax.com',
+        ws: true,
+        changeOrigin: true,
+      },
+      '/api': {
+        target: 'https://gps.bysmax.com',
+        changeOrigin: true,
+      },
     },
   },
   build: {

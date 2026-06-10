@@ -117,7 +117,7 @@ const RegisterPage = () => {
         )}
         <Button
           variant="contained"
-          color="secondary"
+          color="primary"
           onClick={handleSubmit}
           type="submit"
           disabled={!name || !password || !(server.newServer || /(.+)@(.+)\.(.{2,})/.test(email))}

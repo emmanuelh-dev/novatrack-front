@@ -256,7 +256,7 @@ const LoginPage = () => {
               onClick={handlePasswordLogin}
               type="submit"
               variant="contained"
-              color="secondary"
+              color="primary"
               disabled={!email || !password || (codeEnabled && !code)}
             >
               {t('loginLogin')}
@@ -264,7 +264,7 @@ const LoginPage = () => {
           </>
         )}
         {openIdEnabled && (
-          <Button onClick={() => handleOpenIdLogin()} variant="contained" color="secondary">
+          <Button onClick={() => handleOpenIdLogin()} variant="contained" color="primary">
             {t('loginOpenId')}
           </Button>
         )}

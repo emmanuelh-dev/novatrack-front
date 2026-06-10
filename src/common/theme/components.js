@@ -8,11 +8,17 @@ export default {
     styleOverrides: {
       root: ({ theme }) => ({
         backgroundColor: theme.palette.background.default,
+        borderRadius: '9999px',
+        paddingLeft: theme.spacing(1),
+        paddingRight: theme.spacing(1),
       }),
     },
   },
   MuiButton: {
     styleOverrides: {
+      root: {
+        borderRadius: '9999px',
+      },
       sizeMedium: {
         height: '40px',
       },
