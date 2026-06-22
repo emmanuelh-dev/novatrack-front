@@ -8,7 +8,7 @@ export default {
     styleOverrides: {
       root: ({ theme }) => ({
         backgroundColor: theme.palette.background.default,
-        borderRadius: '9999px',
+        borderRadius: '0px',
         paddingLeft: theme.spacing(1),
         paddingRight: theme.spacing(1),
       }),
@@ -17,7 +17,7 @@ export default {
   MuiButton: {
     styleOverrides: {
       root: {
-        borderRadius: '9999px',
+        borderRadius: '0px',
       },
       sizeMedium: {
         height: '40px',
