@@ -28,6 +28,10 @@ const useStyles = makeStyles()((theme) => ({
     flexWrap: 'wrap',
     gap: theme.spacing(1),
     padding: theme.spacing(1),
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+      flexWrap: 'nowrap',
+    },
   },
   video: {
     position: 'relative',
@@ -37,6 +41,10 @@ const useStyles = makeStyles()((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: theme.palette.common.black,
+    [theme.breakpoints.down('sm')]: {
+      flex: '1 1 50%',
+      width: '100%',
+    },
   },
   player: {
     width: '100%',
