@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link, Stack, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { Stack, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import ReportFilter from './components/ReportFilter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
@@ -19,6 +19,7 @@ import MapRouteCoordinates from '../map/MapRouteCoordinates';
 import MapScale from '../map/MapScale';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 import { deviceEquality } from '../common/util/deviceEquality';
+import MediaPreview from '../common/components/MediaPreview';
 
 const CombinedReportPage = () => {
   const { classes } = useReportStyles();
@@ -150,15 +151,11 @@ const CombinedReportPage = () => {
                         <TableCell>
                           <Stack spacing={0.5}>
                             {media.map((file) => (
-                              <Link
+                              <MediaPreview
                                 key={file}
-                                href={`/api/media/${devices[item.deviceId].uniqueId}/${file}`}
-                                target="_blank"
-                              >
-                                {file.toLowerCase().match(/\.(mp4|webm|mov|avi)$/)
-                                  ? t('positionVideo')
-                                  : t('positionImage')}
-                              </Link>
+                                uniqueId={devices[item.deviceId].uniqueId}
+                                file={file}
+                              />
                             ))}
                           </Stack>
                         </TableCell>

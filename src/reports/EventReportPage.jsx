@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Table, TableHead, TableRow, TableCell, TableBody, Link, IconButton } from '@mui/material';
+import { Table, TableHead, TableRow, TableCell, TableBody, IconButton } from '@mui/material';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
 import { useSelector } from 'react-redux';
@@ -29,6 +29,7 @@ import fetchOrThrow from '../common/util/fetchOrThrow';
 import exportExcel from '../common/util/exportExcel';
 import AddressValue from '../common/components/AddressValue';
 import { deviceEquality } from '../common/util/deviceEquality';
+import MediaPreview from '../common/components/MediaPreview';
 
 const columnsArray = [
   ['eventTime', 'positionFixTime'],
@@ -216,12 +217,11 @@ const EventReportPage = () => {
             return formatNumber(Math.abs(item.attributes.after - item.attributes.before));
           case 'media':
             return (
-              <Link
-                href={`/api/media/${devices[item.deviceId]?.uniqueId}/${item.attributes.file}`}
-                target="_blank"
-              >
-                {item.attributes.file}
-              </Link>
+              <MediaPreview
+                uniqueId={devices[item.deviceId]?.uniqueId}
+                file={item.attributes.file}
+                mediaType={item.attributes.media}
+              />
             );
           case 'commandResult':
             return item.attributes.result;

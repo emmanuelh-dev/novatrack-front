@@ -26,6 +26,7 @@ import usePositionAttributes from '../attributes/usePositionAttributes';
 import AddressValue from './AddressValue';
 import GeofencesValue from './GeofencesValue';
 import DriverValue from './DriverValue';
+import MediaPreview from './MediaPreview';
 
 const PositionValue = ({ position, property, attribute }) => {
   const t = useTranslation();
@@ -110,11 +111,7 @@ const PositionValue = ({ position, property, attribute }) => {
     case 'image':
     case 'video':
     case 'audio':
-      return (
-        <Link href={`/api/media/${device.uniqueId}/${value}`} target="_blank">
-          {value}
-        </Link>
-      );
+      return <MediaPreview uniqueId={device.uniqueId} file={value} mediaType={key} />;
     case 'totalDistance':
     case 'hours':
       return (
