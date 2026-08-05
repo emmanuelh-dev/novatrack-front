@@ -6,6 +6,8 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { default as Hls, Events, ErrorTypes } from 'hls.js/light';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
+import VolumeOffIcon from '@mui/icons-material/VolumeOff';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { useCatchCallback } from '../reactHelper';
 import BackIcon from '../common/components/BackIcon';
@@ -35,8 +37,14 @@ const useStyles = makeStyles()((theme) => ({
   },
 }));
 
-const ChannelPlayer = ({ classes, deviceId, channel, setError, sendCommand }) => {
+const ChannelPlayer = ({ classes, deviceId, channel, muted, setError, sendCommand }) => {
   const videoRef = useRef(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = muted;
+    }
+  }, [muted]);
 
   useEffect(() => {
     let retryTimeout;
@@ -71,7 +79,7 @@ const ChannelPlayer = ({ classes, deviceId, channel, setError, sendCommand }) =>
     };
   }, [deviceId, channel, sendCommand, setError]);
 
-  return <video ref={videoRef} className={classes.player} autoPlay muted controls />;
+  return <video ref={videoRef} className={classes.player} autoPlay muted={muted} controls />;
 };
 
 const StreamPage = () => {
@@ -81,6 +89,7 @@ const StreamPage = () => {
 
   const [channel, setChannel] = useState(1);
   const [activeChannel, setActiveChannel] = useState(null);
+  const [muted, setMuted] = useState(true);
   const [error, setError] = useState(false);
 
   const [searchParams] = useSearchParams();
@@ -124,11 +133,21 @@ const StreamPage = () => {
             color={playing ? 'error' : 'primary'}
             onClick={() => {
               setError(false);
+              setMuted(true);
               setActiveChannel(playing ? null : channel);
             }}
           >
             {playing ? <StopIcon /> : <PlayArrowIcon />}
           </IconButton>
+          {playing && (
+            <IconButton
+              edge="end"
+              title={t(muted ? 'videoEnableAudio' : 'videoDisableAudio')}
+              onClick={() => setMuted((value) => !value)}
+            >
+              {muted ? <VolumeOffIcon /> : <VolumeUpIcon />}
+            </IconButton>
+          )}
         </Toolbar>
       </Paper>
       <div className={classes.video}>
@@ -138,6 +157,7 @@ const StreamPage = () => {
             classes={classes}
             deviceId={deviceId}
             channel={activeChannel}
+            muted={muted}
             setError={setError}
             sendCommand={sendCommand}
           />

@@ -289,6 +289,8 @@
     "linkAppleMaps": "Apple Maps",
     "linkStreetView": "Street View",
     "linkLiveVideo": "Video en directo",
+    "videoDisableAudio": "Silenciar audio",
+    "videoEnableAudio": "Activar audio",
     "positionFixTime": "Hora ajustada",
     "positionDeviceTime": "Hora del dispositivo",
     "positionServerTime": "Hora del Servidor",

@@ -288,6 +288,8 @@
     "linkAppleMaps": "Apple Maps",
     "linkStreetView": "Street View",
     "linkLiveVideo": "Live Video",
+    "videoDisableAudio": "Mute audio",
+    "videoEnableAudio": "Enable audio",
     "positionFixTime": "Fix Time",
     "positionDeviceTime": "Device Time",
     "positionServerTime": "Server Time",
