@@ -135,6 +135,30 @@ export default (t) =>
           type: 'number',
         },
       ],
+      setSpeedLimit: [
+        {
+          key: 'data',
+          name: t('commandSpeedLimit'),
+          type: 'number',
+        },
+        {
+          key: 'duration',
+          name: t('commandOverspeedDuration'),
+          type: 'number',
+        },
+      ],
+      setCollisionAlarm: [
+        {
+          key: 'duration',
+          name: t('commandCollisionDuration'),
+          type: 'number',
+        },
+        {
+          key: 'threshold',
+          name: t('commandCollisionThreshold'),
+          type: 'number',
+        },
+      ],
       setOdometer: [
         {
           key: 'data',
