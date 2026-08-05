@@ -8,6 +8,8 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
+import VolumeOffIcon from '@mui/icons-material/VolumeOff';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { useCatchCallback } from '../reactHelper';
 import BackIcon from '../common/components/BackIcon';
@@ -59,7 +61,14 @@ const ChannelPlayer = ({ classes, deviceId, channel, sendCommand, removable, onR
   const videoRef = useRef(null);
 
   const [playing, setPlaying] = useState(true);
+  const [muted, setMuted] = useState(true);
   const [error, setError] = useState(false);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = muted;
+    }
+  }, [muted]);
 
   useEffect(() => {
     if (!playing) {
@@ -125,15 +134,31 @@ const ChannelPlayer = ({ classes, deviceId, channel, sendCommand, removable, onR
           color={playing ? 'error' : 'primary'}
           onClick={() => {
             setError(false);
-            setPlaying((current) => !current);
+            setPlaying((current) => {
+              if (!current) {
+                setMuted(true);
+              }
+              return !current;
+            });
           }}
         >
           {playing ? <StopIcon /> : <PlayArrowIcon />}
         </IconButton>
+        {playing && (
+          <IconButton
+            size="small"
+            title={t(muted ? 'videoEnableAudio' : 'videoDisableAudio')}
+            onClick={() => setMuted((current) => !current)}
+          >
+            {muted ? <VolumeOffIcon /> : <VolumeUpIcon />}
+          </IconButton>
+        )}
       </Toolbar>
       <div className={classes.video}>
         {error && <Typography>{t('errorConnection')}</Typography>}
-        {playing && <video ref={videoRef} className={classes.player} autoPlay muted controls />}
+        {playing && (
+          <video ref={videoRef} className={classes.player} autoPlay muted={muted} controls />
+        )}
       </div>
     </div>
   );
