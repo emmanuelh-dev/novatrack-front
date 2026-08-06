@@ -37,6 +37,10 @@ import { useCatch, useCatchCallback } from '../../reactHelper';
 import { useAttributePreference } from '../util/preferences';
 import fetchOrThrow from '../util/fetchOrThrow';
 
+// A jt808 camera also reports through jimiphoto when it uploads an event attachment, and that upload becomes the
+// latest position. Without both names the live video entry greys out every time the device sends a photo or a clip.
+const VIDEO_PROTOCOLS = ['jt808', 'jimiphoto'];
+
 const useStyles = makeStyles()((theme, { desktopPadding }) => ({
   card: {
     pointerEvents: 'auto',
@@ -285,7 +289,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
         <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
           <MenuItem
             onClick={() => navigate(`/stream?deviceId=${deviceId}`)}
-            disabled={position.protocol !== 'jt808'}
+            disabled={!VIDEO_PROTOCOLS.includes(position.protocol)}
           >
             {t('linkLiveVideo')}
           </MenuItem>
