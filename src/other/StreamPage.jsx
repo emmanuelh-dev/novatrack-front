@@ -9,7 +9,6 @@ import StopIcon from '@mui/icons-material/Stop';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import { useTranslation } from '../common/components/LocalizationProvider';
-import { useCatchCallback } from '../reactHelper';
 import BackIcon from '../common/components/BackIcon';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 
@@ -37,8 +36,12 @@ const useStyles = makeStyles()((theme) => ({
   },
 }));
 
-const ChannelPlayer = ({ classes, deviceId, channel, muted, setError, sendCommand }) => {
+const HEARTBEAT_INTERVAL = 10000;
+
+const ChannelPlayer = ({ classes, deviceId, channel, muted, setError }) => {
   const videoRef = useRef(null);
+  // Stable for the whole life of this player, so rerenders never look like a new viewer.
+  const sessionIdRef = useRef(null);
 
   useEffect(() => {
     if (videoRef.current) {
@@ -47,10 +50,29 @@ const ChannelPlayer = ({ classes, deviceId, channel, muted, setError, sendComman
   }, [muted]);
 
   useEffect(() => {
+    sessionIdRef.current ??= crypto.randomUUID();
+    const sessionId = sessionIdRef.current;
+    const body = JSON.stringify({ sessionId });
+    const headers = { 'Content-Type': 'application/json' };
     let retryTimeout;
 
     setError(false);
-    sendCommand('videoStart', { index: channel });
+
+    // The server owns videoStart and videoStop. This player only says that it is watching, so pausing, retrying or
+    // closing it can never interrupt the other viewers of the same camera.
+    fetchOrThrow(`/api/stream/${deviceId}/${channel}/subscribe`, {
+      method: 'POST',
+      headers,
+      body,
+    }).catch(() => setError(true));
+
+    const heartbeat = setInterval(() => {
+      fetch(`/api/stream/${deviceId}/${channel}/heartbeat`, {
+        method: 'POST',
+        headers,
+        body,
+      }).catch(() => {});
+    }, HEARTBEAT_INTERVAL);
 
     const hls = new Hls();
     hls.loadSource(`/api/stream/${deviceId}/${channel}/live.m3u8`);
@@ -64,6 +86,7 @@ const ChannelPlayer = ({ classes, deviceId, channel, muted, setError, sendComman
       clearTimeout(retryTimeout);
       retryTimeout = setTimeout(() => {
         setError(false);
+        // Recovery is local to this player: no subscription change and no device command.
         if (data.type === ErrorTypes.MEDIA_ERROR) {
           hls.recoverMediaError();
         } else {
@@ -74,10 +97,17 @@ const ChannelPlayer = ({ classes, deviceId, channel, muted, setError, sendComman
 
     return () => {
       clearTimeout(retryTimeout);
+      clearInterval(heartbeat);
       hls.destroy();
-      sendCommand('videoStop', { index: channel });
+      // keepalive lets the request survive a tab close; the server heartbeat sweep covers the cases it does not.
+      fetch(`/api/stream/${deviceId}/${channel}/subscribe`, {
+        method: 'DELETE',
+        headers,
+        body,
+        keepalive: true,
+      }).catch(() => {});
     };
-  }, [deviceId, channel, sendCommand, setError]);
+  }, [deviceId, channel, setError]);
 
   return <video ref={videoRef} className={classes.player} autoPlay muted={muted} controls />;
 };
@@ -97,17 +127,6 @@ const StreamPage = () => {
   const device = useSelector((state) => state.devices.items[deviceId]);
 
   const playing = activeChannel !== null;
-
-  const sendCommand = useCatchCallback(
-    async (type, attributes) => {
-      await fetchOrThrow('/api/commands/send', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ deviceId, type, attributes }),
-      });
-    },
-    [deviceId],
-  );
 
   return (
     <div className={classes.root}>
@@ -159,7 +178,6 @@ const StreamPage = () => {
             channel={activeChannel}
             muted={muted}
             setError={setError}
-            sendCommand={sendCommand}
           />
         )}
       </div>
