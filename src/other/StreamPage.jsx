@@ -11,12 +11,12 @@ import CloseIcon from '@mui/icons-material/Close';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import { useTranslation } from '../common/components/LocalizationProvider';
-import { useCatchCallback } from '../reactHelper';
 import BackIcon from '../common/components/BackIcon';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const MAX_CHANNELS = 8;
 const RETRY_DELAY = 5000;
+const HEARTBEAT_INTERVAL = 10000;
 
 const useStyles = makeStyles()((theme) => ({
   root: {
@@ -56,9 +56,11 @@ const useStyles = makeStyles()((theme) => ({
   },
 }));
 
-const ChannelPlayer = ({ classes, deviceId, channel, sendCommand, removable, onRemove }) => {
+const ChannelPlayer = ({ classes, deviceId, channel, removable, onRemove }) => {
   const t = useTranslation();
   const videoRef = useRef(null);
+  // Stable for the whole life of this player, so rerenders never look like a new viewer.
+  const sessionIdRef = useRef(null);
 
   const [playing, setPlaying] = useState(true);
   const [muted, setMuted] = useState(true);
@@ -75,11 +77,30 @@ const ChannelPlayer = ({ classes, deviceId, channel, sendCommand, removable, onR
       return undefined;
     }
 
+    sessionIdRef.current ??= crypto.randomUUID();
+    const sessionId = sessionIdRef.current;
+    const body = JSON.stringify({ sessionId });
+    const headers = { 'Content-Type': 'application/json' };
     let destroyed = false;
     let retryTimeout;
 
     setError(false);
-    sendCommand('videoStart', { index: channel });
+
+    // The server owns videoStart and videoStop. This player only says that it is watching, so pausing, retrying or
+    // closing it can never interrupt the other viewers of the same camera.
+    fetchOrThrow(`/api/stream/${deviceId}/${channel}/subscribe`, {
+      method: 'POST',
+      headers,
+      body,
+    }).catch(() => setError(true));
+
+    const heartbeat = setInterval(() => {
+      fetch(`/api/stream/${deviceId}/${channel}/heartbeat`, {
+        method: 'POST',
+        headers,
+        body,
+      }).catch(() => {});
+    }, HEARTBEAT_INTERVAL);
 
     const hls = new Hls();
     hls.loadSource(`/api/stream/${deviceId}/${channel}/live.m3u8`);
@@ -100,9 +121,8 @@ const ChannelPlayer = ({ classes, deviceId, channel, sendCommand, removable, onR
           return;
         }
         setError(false);
-        if (data.type === ErrorTypes.NETWORK_ERROR) {
-          hls.startLoad();
-        } else if (data.type === ErrorTypes.MEDIA_ERROR) {
+        // Recovery is local to this player: no subscription change and no device command.
+        if (data.type === ErrorTypes.MEDIA_ERROR) {
           hls.recoverMediaError();
         } else {
           hls.startLoad();
@@ -113,10 +133,17 @@ const ChannelPlayer = ({ classes, deviceId, channel, sendCommand, removable, onR
     return () => {
       destroyed = true;
       clearTimeout(retryTimeout);
+      clearInterval(heartbeat);
       hls.destroy();
-      sendCommand('videoStop', { index: channel });
+      // keepalive lets the request survive a tab close; the server heartbeat sweep covers the cases it does not.
+      fetch(`/api/stream/${deviceId}/${channel}/subscribe`, {
+        method: 'DELETE',
+        headers,
+        body,
+        keepalive: true,
+      }).catch(() => {});
     };
-  }, [deviceId, channel, playing, sendCommand]);
+  }, [deviceId, channel, playing]);
 
   return (
     <div className={classes.channel}>
@@ -175,17 +202,6 @@ const StreamPage = () => {
 
   const [channels, setChannels] = useState([1]);
 
-  const sendCommand = useCatchCallback(
-    async (type, attributes) => {
-      await fetchOrThrow('/api/commands/send', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ deviceId, type, attributes }),
-      });
-    },
-    [deviceId],
-  );
-
   const addChannel = () => {
     setChannels((prev) => {
       if (prev.length >= MAX_CHANNELS) {
@@ -230,7 +246,6 @@ const StreamPage = () => {
             classes={classes}
             deviceId={deviceId}
             channel={channel}
-            sendCommand={sendCommand}
             removable={channels.length > 1}
             onRemove={removeChannel}
           />
