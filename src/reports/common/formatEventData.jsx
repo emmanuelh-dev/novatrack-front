@@ -1,4 +1,3 @@
-import { Link } from '@mui/material';
 import { formatNumber, formatSpeed } from '../../common/util/formatter';
 import { prefixString } from '../../common/util/stringUtils';
 import MediaPreview from '../../common/components/MediaPreview';
