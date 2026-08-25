@@ -22,10 +22,8 @@ export const fromMapCoordinates = (longitude, latitude) =>
     ? gcoord.transform([longitude, latitude], coordinateSystem(map.coordinateSystem), gcoord.WGS84)
     : [longitude, latitude];
 
-const transformGeometry = (geometry, from, to) => ({
-  ...geometry,
-  coordinates: gcoord.transform(structuredClone(geometry.coordinates), from, to),
-});
+const transformGeometry = (geometry, from, to) =>
+  gcoord.transform(structuredClone(geometry), from, to);
 
 export const loadImage = (url) =>
   new Promise((imageLoaded) => {
@@ -141,6 +139,9 @@ export const findFonts = (map) => {
   const { glyphs } = map.getStyle();
   if (glyphs.startsWith('https://tiles.openfreemap.org')) {
     return ['Noto Sans Regular'];
+  }
+  if (glyphs.startsWith('https://api.os.uk')) {
+    return ['Source Sans Pro Regular'];
   }
   return ['Open Sans Regular', 'Arial Unicode MS Regular'];
 };
