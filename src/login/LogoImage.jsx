@@ -1,5 +1,4 @@
-import { useTheme, useMediaQuery } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useTheme } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 const useStyles = makeStyles()((theme) => ({

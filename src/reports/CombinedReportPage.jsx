@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Stack, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { Button, Stack, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import VideocamIcon from '@mui/icons-material/Videocam';
 import ReportFilter from './components/ReportFilter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
@@ -20,6 +21,7 @@ import MapScale from '../map/MapScale';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 import { deviceEquality } from '../common/util/deviceEquality';
 import MediaPreview from '../common/components/MediaPreview';
+import HistoricalVideoDialog from './components/HistoricalVideoDialog';
 
 const CombinedReportPage = () => {
   const { classes } = useReportStyles();
@@ -32,6 +34,7 @@ const CombinedReportPage = () => {
 
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [historicalVideo, setHistoricalVideo] = useState(null);
 
   const itemsCoordinates = useMemo(() => items.flatMap((item) => item.route), [items]);
 
@@ -157,6 +160,19 @@ const CombinedReportPage = () => {
                                 file={file}
                               />
                             ))}
+                            <Button
+                              size="small"
+                              variant="outlined"
+                              startIcon={<VideocamIcon />}
+                              onClick={() =>
+                                setHistoricalVideo({
+                                  deviceId: item.deviceId,
+                                  eventTime: event.eventTime,
+                                })
+                              }
+                            >
+                              Video histórico
+                            </Button>
                           </Stack>
                         </TableCell>
                       </TableRow>
@@ -170,6 +186,9 @@ const CombinedReportPage = () => {
           </Table>
         </div>
       </div>
+      {historicalVideo && (
+        <HistoricalVideoDialog {...historicalVideo} open onClose={() => setHistoricalVideo(null)} />
+      )}
     </PageLayout>
   );
 };

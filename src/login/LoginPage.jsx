@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import {
-  useMediaQuery,
   Select,
   MenuItem,
   FormControl,
@@ -16,7 +15,6 @@ import CountryFlag from 'react-country-flag';
 import { makeStyles } from 'tss-react/mui';
 import CloseIcon from '@mui/icons-material/Close';
 import VpnLockIcon from '@mui/icons-material/VpnLock';
-import QrCode2Icon from '@mui/icons-material/QrCode2';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useTheme } from '@mui/material/styles';

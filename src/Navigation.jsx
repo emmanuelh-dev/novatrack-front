@@ -62,6 +62,7 @@ const AnnouncementPage = lazy(() => import('./settings/AnnouncementPage'));
 const EmulatorPage = lazy(() => import('./other/EmulatorPage'));
 const StreamPage = lazy(() => import('./other/StreamPage'));
 const AuditPage = lazy(() => import('./reports/AuditPage'));
+const VideoReportPage = lazy(() => import('./reports/VideoReportPage'));
 
 const Navigation = () => {
   const dispatch = useDispatch();
@@ -187,6 +188,7 @@ const Navigation = () => {
             <Route path="route" element={<PositionsReportPage />} />
             <Route path="stops" element={<StopReportPage />} />
             <Route path="summary" element={<SummaryReportPage />} />
+            <Route path="video" element={<VideoReportPage />} />
             <Route path="trips" element={<TripReportPage />} />
             <Route path="scheduled" element={<ScheduledPage />} />
             <Route path="statistics" element={<StatisticsPage />} />

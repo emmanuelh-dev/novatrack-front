@@ -12,6 +12,7 @@ import RouteIcon from '@mui/icons-material/Route';
 import EventRepeatIcon from '@mui/icons-material/EventRepeat';
 import NotesIcon from '@mui/icons-material/Notes';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import { useAdministrator, useRestriction } from '../../common/util/permissions';
@@ -83,6 +84,12 @@ const ReportsMenu = () => {
           link={buildLink('/reports/summary')}
           icon={<FormatListBulletedIcon />}
           selected={location.pathname === '/reports/summary'}
+        />
+        <MenuItem
+          title="Video histórico"
+          link={buildLink('/reports/video')}
+          icon={<VideoLibraryIcon />}
+          selected={location.pathname === '/reports/video'}
         />
         <MenuItem
           title={t('reportChart')}

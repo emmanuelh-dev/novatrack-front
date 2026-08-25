@@ -1,7 +1,5 @@
 import { Paper } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
-import { useTheme } from '@mui/material/styles';
-import LogoImage from './LogoImage';
 
 const useStyles = makeStyles()((theme) => ({
   root: {
