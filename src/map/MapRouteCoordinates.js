@@ -1,3 +1,4 @@
+import { useCallback, useLayoutEffect, useRef } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { useSelector } from 'react-redux';
 import { map } from './core/MapView';
@@ -5,8 +6,14 @@ import useMapLayer from './core/useMapLayer';
 import { findFonts, toMapCoordinates } from './core/mapUtil';
 import { useAttributePreference } from '../common/util/preferences';
 
-const MapRouteCoordinates = ({ name, coordinates, deviceId }) => {
+const MapRouteCoordinates = ({ name, coordinates, deviceId, minWidth = 0, color, onClick }) => {
   const theme = useTheme();
+  const onClickRef = useRef(onClick);
+  useLayoutEffect(() => {
+    onClickRef.current = onClick;
+  }, [onClick]);
+  const handleClick = useCallback((event) => onClickRef.current?.(event), []);
+  const clickListener = onClick ? handleClick : undefined;
 
   const reportColor = useSelector((state) => {
     const attributes = state.devices.items[deviceId]?.attributes;
@@ -26,6 +33,7 @@ const MapRouteCoordinates = ({ name, coordinates, deviceId }) => {
     layers: [
       {
         key: 'line',
+        on: clickListener ? { click: clickListener } : undefined,
         type: 'line',
         layout: {
           'line-join': 'round',
@@ -51,7 +59,7 @@ const MapRouteCoordinates = ({ name, coordinates, deviceId }) => {
         },
       },
     ],
-    layersDeps: [],
+    layersDeps: [clickListener],
     data: {
       type: 'Feature',
       geometry: {
@@ -62,12 +70,12 @@ const MapRouteCoordinates = ({ name, coordinates, deviceId }) => {
       },
       properties: {
         name,
-        color: reportColor,
-        width: mapLineWidth,
+        color: color || reportColor,
+        width: Math.max(mapLineWidth, minWidth),
         opacity: mapLineOpacity,
       },
     },
-    dataDeps: [coordinates, reportColor, mapLineWidth, mapLineOpacity, name],
+    dataDeps: [coordinates, color, reportColor, mapLineWidth, minWidth, mapLineOpacity, name],
   });
 
   return null;

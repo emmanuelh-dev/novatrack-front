@@ -38,6 +38,9 @@ const useStyles = makeStyles()((theme) => ({
     top: 0,
     margin: theme.spacing(1.5),
     width: theme.dimensions.drawerWidthDesktop,
+    '& > .MuiPaper-root': {
+      borderRadius: theme.spacing(2),
+    },
     [theme.breakpoints.down('md')]: {
       width: '100%',
       margin: 0,

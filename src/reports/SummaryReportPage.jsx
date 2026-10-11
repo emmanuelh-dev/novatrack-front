@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
+  Typography,
   FormControl,
   InputLabel,
   Select,
@@ -67,10 +68,13 @@ const SummaryReportPage = () => {
     'startTime',
     'distance',
     'averageSpeed',
+    'maxSpeed',
+    'engineHours',
   ]);
   const daily = searchParams.get('daily') === 'true';
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   const onShow = useCatchCallback(
     async ({ deviceIds, groupIds, from, to }) => {
@@ -78,11 +82,16 @@ const SummaryReportPage = () => {
       deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
       groupIds.forEach((groupId) => query.append('groupId', groupId));
       setLoading(true);
+      setError(false);
+      setItems([]);
       try {
         const response = await fetchOrThrow(`/api/reports/summary?${query.toString()}`, {
           headers: { Accept: 'application/json' },
         });
         setItems(await response.json());
+      } catch (failure) {
+        setError(true);
+        throw failure;
       } finally {
         setLoading(false);
       }
@@ -134,7 +143,7 @@ const SummaryReportPage = () => {
       case 'engineHours':
       case 'startHours':
       case 'endHours':
-        return value > 0 ? formatNumericHours(value, t) : null;
+        return Number.isFinite(value) && value > 0 ? formatNumericHours(value, t) : '—';
       case 'spentFuel':
         return value > 0 ? formatVolume(value, volumeUnit, t) : null;
       default:
@@ -173,6 +182,16 @@ const SummaryReportPage = () => {
           <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
         </ReportFilter>
       </div>
+      {searchParams.has('from') && (
+        <Typography variant="body2" color="text.secondary" sx={{ px: 3, pb: 2 }}>
+          {formatTime(searchParams.get('from'), 'minutes')} —{' '}
+          {formatTime(searchParams.get('to'), 'minutes')}
+          {` · ${t('reportResults')}: ${loading ? '…' : items.length}`}
+        </Typography>
+      )}
+      <Typography variant="body2" color="text.secondary" sx={{ px: 3, pb: 2 }}>
+        {t('reportHoursHelp')}
+      </Typography>
       <Table>
         <TableHead>
           <TableRow>
@@ -183,6 +202,19 @@ const SummaryReportPage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
+          {!loading && !items.length && (
+            <TableRow>
+              <TableCell colSpan={columns.length + 1}>
+                {t(
+                  error
+                    ? 'reportLoadError'
+                    : searchParams.has('from')
+                      ? 'dashboardNoReport'
+                      : 'dashboardChoosePeriod',
+                )}
+              </TableCell>
+            </TableRow>
+          )}
           {!loading ? (
             items.map((item) => (
               <TableRow key={`${item.deviceId}_${Date.parse(item.startTime)}`}>

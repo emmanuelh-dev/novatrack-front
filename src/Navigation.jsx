@@ -10,6 +10,8 @@ import { generateLoginToken } from './common/components/NativeInterface';
 import { useLocalization } from './common/components/LocalizationProvider';
 import fetchOrThrow from './common/util/fetchOrThrow';
 
+const RoutesPage = lazy(() => import('./routes/RoutesPage'));
+const DashboardPage = lazy(() => import('./dashboard/DashboardPage'));
 const CombinedReportPage = lazy(() => import('./reports/CombinedReportPage'));
 const PositionsReportPage = lazy(() => import('./reports/PositionsReportPage'));
 const ServerPage = lazy(() => import('./settings/ServerPage'));
@@ -26,7 +28,9 @@ const EventReportPage = lazy(() => import('./reports/EventReportPage'));
 const GeofenceReportPage = lazy(() => import('./reports/GeofenceReportPage'));
 const ReplayPage = lazy(() => import('./other/ReplayPage'));
 const TripReportPage = lazy(() => import('./reports/TripReportPage'));
+const TripComparisonReportPage = lazy(() => import('./reports/TripComparisonReportPage'));
 const StopReportPage = lazy(() => import('./reports/StopReportPage'));
+const ActivityReportPage = lazy(() => import('./reports/ActivityReportPage'));
 const SummaryReportPage = lazy(() => import('./reports/SummaryReportPage'));
 const ChartReportPage = lazy(() => import('./reports/ChartReportPage'));
 const DriversPage = lazy(() => import('./settings/DriversPage'));
@@ -129,6 +133,8 @@ const Navigation = () => {
         <Route path="/change-server" element={<ChangeServerPage />} />
         <Route path="/" element={<App />}>
           <Route index element={<MainPage />} />
+          <Route path="routes" element={<RoutesPage />} />
+          <Route path="dashboard" element={<DashboardPage />} />
 
           <Route path="position/:id" element={<PositionPage />} />
           <Route path="network/:positionId" element={<NetworkPage />} />
@@ -187,9 +193,11 @@ const Navigation = () => {
             <Route path="geofences" element={<GeofenceReportPage />} />
             <Route path="route" element={<PositionsReportPage />} />
             <Route path="stops" element={<StopReportPage />} />
+            <Route path="activity" element={<ActivityReportPage />} />
             <Route path="summary" element={<SummaryReportPage />} />
             <Route path="video" element={<VideoReportPage />} />
             <Route path="trips" element={<TripReportPage />} />
+            <Route path="trip-comparison" element={<TripComparisonReportPage />} />
             <Route path="scheduled" element={<ScheduledPage />} />
             <Route path="statistics" element={<StatisticsPage />} />
             <Route path="audit" element={<AuditPage />} />

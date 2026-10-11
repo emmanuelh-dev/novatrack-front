@@ -5,11 +5,13 @@ import useMapLayer from './core/useMapLayer';
 import { findFonts, geofenceToFeature } from './core/mapUtil';
 import { useTranslation } from '../common/components/LocalizationProvider';
 
-const MapGeofence = () => {
+const MapGeofence = ({ items }) => {
   const theme = useTheme();
   const t = useTranslation();
 
-  const geofences = useSelector((state) => state.geofences.items);
+  const stored = useSelector((state) => state.geofences.items);
+
+  const geofences = items || stored;
 
   useMapLayer({
     layers: [

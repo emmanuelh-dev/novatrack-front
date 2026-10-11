@@ -77,7 +77,7 @@ const GeofencePage = () => {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={item.attributes.hide}
+                    checked={Boolean(item.attributes?.hide)}
                     onChange={(e) =>
                       setItem({
                         ...item,

@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from 'tss-react/mui';
 import {
-  IconButton,
+  Box,
   Tooltip,
   Avatar,
   ListItemAvatar,
@@ -24,6 +24,7 @@ import {
   formatBoolean,
   formatPercentage,
   formatStatus,
+  formatTime,
   getStatusColor,
 } from '../common/util/formatter';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -58,10 +59,16 @@ const useStyles = makeStyles()((theme) => ({
     color: theme.palette.error.main,
   },
   neutral: {
-    color: theme.palette.neutral.main,
+    color: theme.palette.text.secondary,
   },
-  selected: {
-    backgroundColor: theme.palette.action.selected,
+  row: {
+    height: 64,
+    margin: theme.spacing(0.5, 1),
+    padding: theme.spacing(1),
+    borderRadius: '10px',
+    '&.Mui-selected': {
+      backgroundColor: theme.palette.action.selected,
+    },
   },
 }));
 
@@ -98,12 +105,6 @@ const DeviceRow = ({ devices, index, style }) => {
   const secondaryValue = resolveFieldValue(deviceSecondary);
 
   const secondaryText = () => {
-    let status;
-    if (item.status === 'online' || !item.lastUpdate) {
-      status = formatStatus(item.status, t);
-    } else {
-      status = dayjs(item.lastUpdate).fromNow();
-    }
     return (
       <>
         {secondaryValue && (
@@ -112,7 +113,13 @@ const DeviceRow = ({ devices, index, style }) => {
             {' • '}
           </>
         )}
-        <span className={classes[getStatusColor(item.status)]}>{status}</span>
+        <span className={classes[getStatusColor(item.status)]}>{formatStatus(item.status, t)}</span>
+        {item.lastUpdate && (
+          <span title={`${t('deviceLastUpdate')}: ${formatTime(item.lastUpdate)}`}>
+            {' · '}
+            {dayjs(item.lastUpdate).fromNow()}
+          </span>
+        )}
       </>
     );
   };
@@ -124,10 +131,11 @@ const DeviceRow = ({ devices, index, style }) => {
         onClick={() => dispatch(devicesActions.selectId(item.id))}
         disabled={!admin && item.disabled}
         selected={selectedDeviceId === item.id}
-        className={selectedDeviceId === item.id ? classes.selected : null}
+        aria-pressed={selectedDeviceId === item.id}
+        className={classes.row}
       >
-        <ListItemAvatar>
-          <Avatar>
+        <ListItemAvatar sx={{ minWidth: 48 }}>
+          <Avatar sx={{ width: 36, height: 36 }}>
             <img className={classes.icon} src={mapIcons[mapIconKey(item.category)]} alt="" />
           </Avatar>
         </ListItemAvatar>
@@ -139,37 +147,59 @@ const DeviceRow = ({ devices, index, style }) => {
             secondary: Typography,
           }}
           slotProps={{
-            primary: { noWrap: true },
-            secondary: { noWrap: true },
+            primary: {
+              noWrap: true,
+              title: typeof primaryValue === 'string' ? primaryValue : undefined,
+              sx: { fontWeight: 600, fontSize: '0.9rem' },
+            },
+            secondary: { noWrap: true, sx: { fontSize: '0.75rem' } },
           }}
         />
         {position && (
           <>
             {position.attributes.hasOwnProperty('alarm') && (
               <Tooltip title={`${t('eventAlarm')}: ${formatAlarm(position.attributes.alarm, t)}`}>
-                <IconButton size="small">
+                <Box
+                  component="span"
+                  role="img"
+                  tabIndex={0}
+                  aria-label={`${t('eventAlarm')}: ${formatAlarm(position.attributes.alarm, t)}`}
+                  sx={{ display: 'inline-flex', p: 0.5 }}
+                >
                   <ErrorIcon fontSize="small" className={classes.error} />
-                </IconButton>
+                </Box>
               </Tooltip>
             )}
             {position.attributes.hasOwnProperty('ignition') && (
               <Tooltip
                 title={`${t('positionIgnition')}: ${formatBoolean(position.attributes.ignition, t)}`}
               >
-                <IconButton size="small">
+                <Box
+                  component="span"
+                  role="img"
+                  tabIndex={0}
+                  aria-label={`${t('positionIgnition')}: ${formatBoolean(position.attributes.ignition, t)}`}
+                  sx={{ display: 'inline-flex', p: 0.5 }}
+                >
                   {position.attributes.ignition ? (
                     <EngineIcon width={20} height={20} className={classes.success} />
                   ) : (
                     <EngineIcon width={20} height={20} className={classes.neutral} />
                   )}
-                </IconButton>
+                </Box>
               </Tooltip>
             )}
             {position.attributes.hasOwnProperty('batteryLevel') && (
               <Tooltip
                 title={`${t('positionBatteryLevel')}: ${formatPercentage(position.attributes.batteryLevel)}`}
               >
-                <IconButton size="small">
+                <Box
+                  component="span"
+                  role="img"
+                  tabIndex={0}
+                  aria-label={`${t('positionBatteryLevel')}: ${formatPercentage(position.attributes.batteryLevel)}`}
+                  sx={{ display: 'inline-flex', p: 0.5 }}
+                >
                   {(position.attributes.batteryLevel > 70 &&
                     (position.attributes.charge ? (
                       <BatteryChargingFullIcon fontSize="small" className={classes.success} />
@@ -187,7 +217,7 @@ const DeviceRow = ({ devices, index, style }) => {
                     ) : (
                       <Battery20Icon fontSize="small" className={classes.error} />
                     ))}
-                </IconButton>
+                </Box>
               </Tooltip>
             )}
           </>

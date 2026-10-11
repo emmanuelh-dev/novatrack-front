@@ -23,6 +23,7 @@ const useStyles = makeStyles()(() => ({
 
 const SelectField = ({
   label,
+  disabled,
   fullWidth,
   multiple,
   value = null,
@@ -72,6 +73,7 @@ const SelectField = ({
 
     return (
       <Autocomplete
+        disabled={disabled}
         size={singleLine ? 'small' : 'medium'}
         multiple={multiple}
         className={multiple && singleLine ? classes.autocompleteMultiple : undefined}

@@ -1,8 +1,16 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
-import { IconButton, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import {
+  Typography,
+  IconButton,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from '@mui/material';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
 import {
@@ -48,6 +56,7 @@ const columnsMap = new Map(columnsArray);
 
 const StopReportPage = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { classes } = useReportStyles();
   const t = useTranslation();
   const theme = useTheme();
@@ -63,9 +72,12 @@ const StopReportPage = () => {
     'endTime',
     'startOdometer',
     'address',
+    'duration',
+    'engineHours',
   ]);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
 
   const onShow = useCatchCallback(async ({ deviceIds, groupIds, from, to }) => {
@@ -73,11 +85,16 @@ const StopReportPage = () => {
     deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
     groupIds.forEach((groupId) => query.append('groupId', groupId));
     setLoading(true);
+    setError(false);
+    setItems([]);
     try {
       const response = await fetchOrThrow(`/api/reports/stops?${query.toString()}`, {
         headers: { Accept: 'application/json' },
       });
       setItems(await response.json());
+    } catch (failure) {
+      setError(true);
+      throw failure;
     } finally {
       setLoading(false);
     }
@@ -123,7 +140,7 @@ const StopReportPage = () => {
       case 'duration':
         return formatNumericHours(value, t);
       case 'engineHours':
-        return value > 0 ? formatNumericHours(value, t) : null;
+        return Number.isFinite(value) && value > 0 ? formatNumericHours(value, t) : '—';
       case 'spentFuel':
         return value > 0 ? formatVolume(value, volumeUnit, t) : null;
       case 'address':
@@ -175,6 +192,16 @@ const StopReportPage = () => {
               <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
             </ReportFilter>
           </div>
+          {searchParams.has('from') && (
+            <Typography variant="body2" color="text.secondary" sx={{ px: 3, pb: 2 }}>
+              {formatTime(searchParams.get('from'), 'minutes')} —{' '}
+              {formatTime(searchParams.get('to'), 'minutes')}
+              {` · ${t('reportResults')}: ${loading ? '…' : items.length}`}
+            </Typography>
+          )}
+          <Typography variant="body2" color="text.secondary" sx={{ px: 3, pb: 2 }}>
+            {t('reportHoursHelp')}
+          </Typography>
           <Table>
             <TableHead>
               <TableRow>
@@ -186,6 +213,19 @@ const StopReportPage = () => {
               </TableRow>
             </TableHead>
             <TableBody>
+              {!loading && !items.length && (
+                <TableRow>
+                  <TableCell colSpan={columns.length + 2}>
+                    {t(
+                      error
+                        ? 'reportLoadError'
+                        : searchParams.has('from')
+                          ? 'dashboardNoReport'
+                          : 'dashboardChoosePeriod',
+                    )}
+                  </TableCell>
+                </TableRow>
+              )}
               {!loading ? (
                 items.map((item) => (
                   <TableRow key={item.positionId}>

@@ -36,21 +36,26 @@ import { devicesActions } from '../../store';
 import { useCatch, useCatchCallback } from '../../reactHelper';
 import { useAttributePreference } from '../util/preferences';
 import fetchOrThrow from '../util/fetchOrThrow';
+import { formatStatus, formatTime } from '../util/formatter';
 
 const useStyles = makeStyles()((theme, { desktopPadding }) => ({
   card: {
     pointerEvents: 'auto',
     width: theme.dimensions.popupMaxWidth,
+    maxWidth: 'calc(100vw - 32px)',
+    border: 0,
+    borderRadius: theme.spacing(2),
   },
   header: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: theme.spacing(1, 1, 0, 2),
+    padding: theme.spacing(2, 1, 1, 2),
+    gap: theme.spacing(1),
     color: theme.palette.text.secondary,
   },
   media: {
-    height: theme.dimensions.popupImageHeight,
+    minHeight: theme.dimensions.popupImageHeight,
     '& > div': {
       color: theme.palette.common.white,
       mixBlendMode: 'difference',
@@ -68,6 +73,9 @@ const useStyles = makeStyles()((theme, { desktopPadding }) => ({
     filter: 'brightness(0) invert(1)',
   },
   table: {
+    tableLayout: 'fixed',
+    backgroundColor: 'transparent',
+    '& .MuiTableRow-root:hover': { backgroundColor: 'transparent' },
     '& .MuiTableCell-sizeSmall': {
       paddingLeft: 0,
       paddingRight: 0,
@@ -78,9 +86,12 @@ const useStyles = makeStyles()((theme, { desktopPadding }) => ({
   },
   cell: {
     borderBottom: 'none',
+    verticalAlign: 'top',
+    overflowWrap: 'anywhere',
   },
   actions: {
     justifyContent: 'space-between',
+    padding: theme.spacing(1, 2, 2),
   },
   root: {
     pointerEvents: 'none',
@@ -105,10 +116,12 @@ const StatusRow = ({ name, content }) => {
   return (
     <TableRow>
       <TableCell className={classes.cell}>
-        <Typography variant="body2">{name}</Typography>
+        <Typography variant="body2" color="text.secondary">
+          {name}
+        </Typography>
       </TableCell>
       <TableCell className={classes.cell}>
-        <Typography variant="body2" color="textSecondary">
+        <Typography variant="body2" sx={{ fontWeight: 500 }}>
           {content}
         </Typography>
       </TableCell>
@@ -181,16 +194,42 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
             dragHandleClassName="draggable-header"
             style={{ position: 'relative' }}
           >
-            <Card elevation={3} className={classes.card}>
+            <Card
+              elevation={3}
+              className={classes.card}
+              component="section"
+              aria-label={device.name}
+            >
               <CardMedia
                 className={`draggable-header ${deviceImage ? classes.media : ''}`}
                 image={deviceImage && `/api/media/${device.uniqueId}/${deviceImage}`}
               >
                 <div className={classes.header}>
-                  <Typography variant="body2" color="inherit">
-                    {device.name}
-                  </Typography>
-                  <IconButton size="small" color="inherit" onClick={onClose} onTouchStart={onClose}>
+                  <div style={{ minWidth: 0 }}>
+                    <Typography
+                      component="h2"
+                      variant="subtitle1"
+                      color={deviceImage ? 'inherit' : 'text.primary'}
+                      sx={{ fontWeight: 600, overflowWrap: 'anywhere' }}
+                    >
+                      {device.name}
+                    </Typography>
+                    <Typography variant="caption" color="inherit" sx={{ display: 'block' }}>
+                      {formatStatus(device.status, t)}
+                    </Typography>
+                    {device.lastUpdate && (
+                      <Typography variant="caption" color="inherit" sx={{ display: 'block' }}>
+                        {t('deviceLastUpdate')}: {formatTime(device.lastUpdate)}
+                      </Typography>
+                    )}
+                  </div>
+                  <IconButton
+                    size="small"
+                    color="inherit"
+                    aria-label={t('sharedHide')}
+                    onClick={onClose}
+                    onTouchStart={onClose}
+                  >
                     <CloseIcon fontSize="small" />
                   </IconButton>
                 </div>
@@ -236,6 +275,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
               <CardActions className={classes.actions} disableSpacing>
                 <Tooltip title={t('sharedExtra')}>
                   <IconButton
+                    aria-label={t('sharedExtra')}
                     color="secondary"
                     onClick={(e) => setAnchorEl(e.currentTarget)}
                     disabled={!position}
@@ -245,6 +285,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                 </Tooltip>
                 <Tooltip title={t('reportReplay')}>
                   <IconButton
+                    aria-label={t('reportReplay')}
                     onClick={() => navigate(`/replay?deviceId=${deviceId}`)}
                     disabled={disableActions || !position}
                   >
@@ -253,6 +294,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                 </Tooltip>
                 <Tooltip title={t('commandTitle')}>
                   <IconButton
+                    aria-label={t('commandTitle')}
                     onClick={() => navigate(`/settings/device/${deviceId}/command`)}
                     disabled={disableActions}
                   >
@@ -261,6 +303,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                 </Tooltip>
                 <Tooltip title={t('sharedEdit')}>
                   <IconButton
+                    aria-label={t('sharedEdit')}
                     onClick={() => navigate(`/settings/device/${deviceId}`)}
                     disabled={disableActions || deviceReadonly}
                   >
@@ -269,6 +312,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                 </Tooltip>
                 <Tooltip title={t('sharedRemove')}>
                   <IconButton
+                    aria-label={t('sharedRemove')}
                     color="error"
                     onClick={() => setRemoving(true)}
                     disabled={disableActions || deviceReadonly}

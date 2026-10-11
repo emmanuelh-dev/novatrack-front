@@ -3,6 +3,7 @@ import { makeStyles } from 'tss-react/mui';
 export default makeStyles()((theme) => ({
   container: {
     height: '100%',
+    minHeight: 0,
     display: 'flex',
     flexDirection: 'column',
   },
@@ -12,6 +13,7 @@ export default makeStyles()((theme) => ({
   },
   containerMain: {
     overflow: 'auto',
+    minHeight: 0,
   },
   header: {
     position: 'sticky',
@@ -34,7 +36,11 @@ export default makeStyles()((theme) => ({
     display: 'inline-flex',
     flexWrap: 'wrap',
     gap: theme.spacing(2),
-    padding: theme.spacing(3, 2, 2),
+    padding: theme.spacing(2),
+    margin: theme.spacing(2),
+    borderRadius: theme.spacing(1.5),
+    backgroundColor: theme.palette.background.paper,
+    flexShrink: 0,
     '@media print': {
       display: 'none !important',
     },
@@ -53,6 +59,8 @@ export default makeStyles()((theme) => ({
   },
   chart: {
     flexGrow: 1,
+    minHeight: 280,
+    margin: theme.spacing(2),
     overflow: 'hidden',
   },
   actionCellPadding: {

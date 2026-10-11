@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useId, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import {
   FormControl,
@@ -30,6 +30,7 @@ export const updateReportParams = (searchParams, setSearchParams, key, values) =
 const ReportFilter = ({ children, onShow, onExport, onSchedule, deviceType, loading, formats }) => {
   const { classes } = useReportStyles();
   const t = useTranslation();
+  const periodLabelId = useId();
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -39,7 +40,7 @@ const ReportFilter = ({ children, onShow, onExport, onSchedule, deviceType, load
   const groups = useSelector((state) => state.groups.items);
   const deviceList = useMemo(
     () => [
-      { id: 'all', name: t('notificationAlways') },
+      { id: 'all', name: t('dashboardAllUnits') },
       ...Object.values(devices).sort((a, b) => a.name.localeCompare(b.name)),
     ],
     [devices, t],
@@ -141,7 +142,16 @@ const ReportFilter = ({ children, onShow, onExport, onSchedule, deviceType, load
     const newParams = new URLSearchParams(searchParams);
     newParams.set('from', selectedFrom.toISOString());
     newParams.set('to', selectedTo.toISOString());
-    setSearchParams(newParams, { replace: true });
+    if (newParams.toString() === searchParams.toString()) {
+      onShow({
+        deviceIds: deviceIds.filter((it) => it !== 'all'),
+        groupIds,
+        from: selectedFrom.toISOString(),
+        to: selectedTo.toISOString(),
+      });
+    } else {
+      setSearchParams(newParams, { replace: true });
+    }
   };
 
   const onSelected = (type) => {
@@ -230,8 +240,9 @@ const ReportFilter = ({ children, onShow, onExport, onSchedule, deviceType, load
         <>
           <div className={classes.filterItem}>
             <FormControl fullWidth>
-              <InputLabel>{t('reportPeriod')}</InputLabel>
+              <InputLabel id={periodLabelId}>{t('reportPeriod')}</InputLabel>
               <Select
+                labelId={periodLabelId}
                 label={t('reportPeriod')}
                 value={period}
                 onChange={(e) => setPeriod(e.target.value)}

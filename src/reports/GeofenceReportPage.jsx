@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { Box, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import { formatNumericHours, formatTime } from '../common/util/formatter';
 import ReportFilter, { updateReportParams } from './components/ReportFilter';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -26,13 +26,17 @@ const columnsArray = [
 ];
 const columnsMap = new Map(columnsArray);
 
-const GeofenceReportPage = () => {
+const GeofenceReportPage = ({ embedded = false, selectedGeofenceId }) => {
   const { classes } = useReportStyles();
   const t = useTranslation();
   const theme = useTheme();
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const geofenceIds = useMemo(() => searchParams.getAll('geofenceId').map(Number), [searchParams]);
+  const geofenceIds = useMemo(
+    () =>
+      selectedGeofenceId ? [selectedGeofenceId] : searchParams.getAll('geofenceId').map(Number),
+    [searchParams, selectedGeofenceId],
+  );
 
   const devices = useSelector((state) => state.devices.items, deviceEquality(['id', 'name']));
   const geofences = useSelector((state) => state.geofences.items);
@@ -95,8 +99,13 @@ const GeofenceReportPage = () => {
     }
   };
 
+  const Layout = embedded ? Box : PageLayout;
   return (
-    <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'sharedGeofences']}>
+    <Layout
+      {...(embedded
+        ? {}
+        : { menu: <ReportsMenu />, breadcrumbs: ['reportTitle', 'sharedGeofences'] })}
+    >
       <div className={classes.header}>
         <ReportFilter
           onShow={onShow}
@@ -109,6 +118,7 @@ const GeofenceReportPage = () => {
             <SelectField
               label={t('sharedGeofences')}
               value={geofenceIds}
+              disabled={Boolean(selectedGeofenceId)}
               onChange={(e) =>
                 updateReportParams(searchParams, setSearchParams, 'geofenceId', e.target.value)
               }
@@ -147,7 +157,7 @@ const GeofenceReportPage = () => {
           )}
         </TableBody>
       </Table>
-    </PageLayout>
+    </Layout>
   );
 };
 

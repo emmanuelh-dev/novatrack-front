@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { TextField } from '@mui/material';
+import { InputAdornment, TextField } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 import { makeStyles } from 'tss-react/mui';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 
@@ -10,7 +11,10 @@ const useStyles = makeStyles()((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'stretch',
-    padding: theme.spacing(3, 2, 2),
+    padding: theme.spacing(2),
+    backgroundColor: theme.palette.background.paper,
+    maxWidth: theme.spacing(64),
+    flexShrink: 0,
   },
 }));
 
@@ -31,6 +35,16 @@ const SearchHeader = ({ keyword, setKeyword }) => {
       <TextField
         variant="outlined"
         placeholder={t('sharedSearch')}
+        slotProps={{
+          htmlInput: { 'aria-label': t('sharedSearch') },
+          input: {
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon fontSize="small" />
+              </InputAdornment>
+            ),
+          },
+        }}
         value={input}
         onChange={(e) => setInput(e.target.value)}
       />

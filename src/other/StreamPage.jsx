@@ -1,6 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Typography, IconButton, Toolbar, Paper } from '@mui/material';
+import {
+  CircularProgress,
+  IconButton,
+  Paper,
+  Step,
+  StepLabel,
+  Stepper,
+  Toolbar,
+  Typography,
+} from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { default as Hls, Events, ErrorTypes } from 'hls.js/light';
@@ -49,6 +58,15 @@ const useStyles = makeStyles()((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    position: 'relative',
+    minHeight: 220,
+  },
+  progress: {
+    position: 'absolute',
+    width: '100%',
+    maxWidth: 440,
+    padding: theme.spacing(2),
+    textAlign: 'center',
   },
   player: {
     maxWidth: '100%',
@@ -64,7 +82,7 @@ const ChannelPlayer = ({ classes, deviceId, channel, removable, onRemove }) => {
 
   const [playing, setPlaying] = useState(true);
   const [muted, setMuted] = useState(true);
-  const [error, setError] = useState(false);
+  const [stage, setStage] = useState(0);
 
   useEffect(() => {
     if (videoRef.current) {
@@ -84,7 +102,7 @@ const ChannelPlayer = ({ classes, deviceId, channel, removable, onRemove }) => {
     let destroyed = false;
     let retryTimeout;
 
-    setError(false);
+    setStage(0);
 
     // The server owns videoStart and videoStop. This player only says that it is watching, so pausing, retrying or
     // closing it can never interrupt the other viewers of the same camera.
@@ -92,14 +110,22 @@ const ChannelPlayer = ({ classes, deviceId, channel, removable, onRemove }) => {
       method: 'POST',
       headers,
       body,
-    }).catch(() => setError(true));
+    })
+      .then(() => {
+        if (!destroyed) setStage((current) => (current === 0 ? 1 : current));
+      })
+      .catch(() => {});
 
     const heartbeat = setInterval(() => {
       fetch(`/api/stream/${deviceId}/${channel}/heartbeat`, {
         method: 'POST',
         headers,
         body,
-      }).catch(() => {});
+      })
+        .then((response) => {
+          if (!destroyed && response.ok) setStage((current) => (current === 0 ? 1 : current));
+        })
+        .catch(() => {});
     }, HEARTBEAT_INTERVAL);
 
     const hls = new Hls();
@@ -107,20 +133,19 @@ const ChannelPlayer = ({ classes, deviceId, channel, removable, onRemove }) => {
     hls.attachMedia(videoRef.current);
     hls.on(Events.MANIFEST_PARSED, () => {
       if (!destroyed && videoRef.current) {
-        videoRef.current.play();
+        videoRef.current.play().catch(() => {});
       }
     });
     hls.on(Events.ERROR, (_, data) => {
       if (!data.fatal || destroyed) {
         return;
       }
-      setError(true);
+      setStage(1);
       clearTimeout(retryTimeout);
       retryTimeout = setTimeout(() => {
         if (destroyed) {
           return;
         }
-        setError(false);
         // Recovery is local to this player: no subscription change and no device command.
         if (data.type === ErrorTypes.MEDIA_ERROR) {
           hls.recoverMediaError();
@@ -152,15 +177,20 @@ const ChannelPlayer = ({ classes, deviceId, channel, removable, onRemove }) => {
           {channel}
         </Typography>
         {removable && (
-          <IconButton size="small" onClick={() => onRemove(channel)}>
+          <IconButton size="small" title={t('sharedRemove')} onClick={() => onRemove(channel)}>
             <CloseIcon fontSize="small" />
           </IconButton>
         )}
         <IconButton
           size="small"
           color={playing ? 'error' : 'primary'}
+          title={
+            playing
+              ? t('videoPauseViewing') || 'Pause viewing'
+              : t('videoResumeViewing') || 'Resume viewing'
+          }
           onClick={() => {
-            setError(false);
+            setStage(0);
             setPlaying((current) => {
               if (!current) {
                 setMuted(true);
@@ -182,9 +212,32 @@ const ChannelPlayer = ({ classes, deviceId, channel, removable, onRemove }) => {
         )}
       </Toolbar>
       <div className={classes.video}>
-        {error && <Typography>{t('errorConnection')}</Typography>}
+        {playing && stage < 2 && (
+          <div className={classes.progress} role="status" aria-live="polite">
+            <CircularProgress size={30} aria-hidden="true" />
+            <Stepper activeStep={stage} alternativeLabel sx={{ mt: 2 }}>
+              {[
+                ['videoConnecting', 'Establishing connection'],
+                ['videoWaiting', 'Connecting camera'],
+                ['videoConnected', 'Connected'],
+              ].map(([key, fallback]) => (
+                <Step key={key}>
+                  <StepLabel>{t(key) || fallback}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+          </div>
+        )}
         {playing && (
-          <video ref={videoRef} className={classes.player} autoPlay muted={muted} controls />
+          <video
+            ref={videoRef}
+            className={classes.player}
+            style={{ visibility: stage === 2 ? 'visible' : 'hidden' }}
+            autoPlay
+            muted={muted}
+            controls
+            onPlaying={() => setStage(2)}
+          />
         )}
       </div>
     </div>
@@ -242,7 +295,7 @@ const StreamPage = () => {
       <div className={classes.grid}>
         {channels.map((channel) => (
           <ChannelPlayer
-            key={channel}
+            key={`${deviceId}-${channel}`}
             classes={classes}
             deviceId={deviceId}
             channel={channel}

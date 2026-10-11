@@ -32,6 +32,11 @@ const useStyles = makeStyles()((theme) => ({
     },
   },
   drawer: {
+    margin: theme.spacing(1.5),
+    borderRadius: theme.spacing(2),
+    boxShadow: theme.shadows[1],
+    flexShrink: 0,
+    overflow: 'hidden',
     display: 'flex',
     flexDirection: 'column',
     [theme.breakpoints.up('sm')]: {

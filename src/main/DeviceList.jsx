@@ -1,6 +1,8 @@
 import { useEffect, useReducer } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from 'tss-react/mui';
+import { Box, Typography } from '@mui/material';
+import { useTranslation } from '../common/components/LocalizationProvider';
 import { List } from 'react-window';
 import { devicesActions } from '../store';
 import { useAsyncTask } from '../reactHelper';
@@ -21,6 +23,8 @@ const useStyles = makeStyles()((theme) => ({
 const DeviceList = ({ devices }) => {
   const { classes } = useStyles();
   const dispatch = useDispatch();
+  const loaded = useSelector((state) => state.devices.loaded);
+  const t = useTranslation();
 
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
 
@@ -38,6 +42,16 @@ const DeviceList = ({ devices }) => {
     },
     [dispatch],
   );
+
+  if (!devices.length) {
+    return (
+      <Box sx={{ flex: 1, p: 4, textAlign: 'center' }}>
+        <Typography color="text.secondary">
+          {t(loaded ? 'sharedNoData' : 'sharedLoading')}
+        </Typography>
+      </Box>
+    );
+  }
 
   return (
     <List

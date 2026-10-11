@@ -1,4 +1,5 @@
 import { Divider, List } from '@mui/material';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import StarIcon from '@mui/icons-material/Star';
 import TimelineIcon from '@mui/icons-material/Timeline';
 import PauseCircleFilledIcon from '@mui/icons-material/PauseCircleFilled';
@@ -9,6 +10,7 @@ import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import RouteIcon from '@mui/icons-material/Route';
+import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import EventRepeatIcon from '@mui/icons-material/EventRepeat';
 import NotesIcon from '@mui/icons-material/Notes';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
@@ -24,6 +26,7 @@ const ReportsMenu = () => {
 
   const admin = useAdministrator();
   const readonly = useRestriction('readonly');
+  const disableReports = useRestriction('disableReports');
 
   const buildLink = (path) => {
     const sourceParams = new URLSearchParams(location.search);
@@ -50,6 +53,12 @@ const ReportsMenu = () => {
     <>
       <List>
         <MenuItem
+          title={t('dashboardTitle')}
+          link={buildLink('/dashboard')}
+          icon={<DashboardIcon />}
+          selected={location.pathname === '/dashboard'}
+        />
+        <MenuItem
           title={t('reportCombined')}
           link={buildLink('/reports/combined')}
           icon={<StarIcon />}
@@ -73,6 +82,14 @@ const ReportsMenu = () => {
           icon={<PlayCircleFilledIcon />}
           selected={location.pathname === '/reports/trips'}
         />
+        {!disableReports && (
+          <MenuItem
+            title={t('tripReportTitle')}
+            link={buildLink('/reports/trip-comparison')}
+            icon={<CompareArrowsIcon />}
+            selected={location.pathname === '/reports/trip-comparison'}
+          />
+        )}
         <MenuItem
           title={t('reportStops')}
           link={buildLink('/reports/stops')}
@@ -84,6 +101,12 @@ const ReportsMenu = () => {
           link={buildLink('/reports/summary')}
           icon={<FormatListBulletedIcon />}
           selected={location.pathname === '/reports/summary'}
+        />
+        <MenuItem
+          title={t('reportActivity')}
+          link={buildLink('/reports/activity')}
+          icon={<PauseCircleFilledIcon />}
+          selected={location.pathname === '/reports/activity'}
         />
         <MenuItem
           title="Video histórico"

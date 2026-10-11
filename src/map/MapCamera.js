@@ -3,8 +3,9 @@ import * as maplibregl from 'maplibre-gl';
 import { map } from './core/MapView';
 import { toMapCoordinates } from './core/mapUtil';
 
-const MapCamera = ({ latitude, longitude, positions, coordinates }) => {
+const MapCamera = ({ latitude, longitude, positions, coordinates, visible, padding }) => {
   useEffect(() => {
+    if (visible === false) return;
     if (coordinates || positions) {
       const coords = coordinates
         ? coordinates.map(([longitude, latitude]) => toMapCoordinates(longitude, latitude))
@@ -16,7 +17,7 @@ const MapCamera = ({ latitude, longitude, positions, coordinates }) => {
         );
         const canvas = map.getCanvas();
         map.fitBounds(bounds, {
-          padding: Math.min(canvas.width, canvas.height) * 0.1,
+          padding: padding ?? Math.min(canvas.width, canvas.height) * 0.1,
           duration: 0,
         });
       }
@@ -26,7 +27,7 @@ const MapCamera = ({ latitude, longitude, positions, coordinates }) => {
         zoom: Math.max(map.getZoom(), 10),
       });
     }
-  }, [latitude, longitude, positions, coordinates]);
+  }, [latitude, longitude, positions, coordinates, visible, padding]);
 
   return null;
 };

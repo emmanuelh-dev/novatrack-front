@@ -32,6 +32,9 @@ const useStyles = makeStyles()((theme) => ({
       width: theme.dimensions.drawerWidthDesktop,
       margin: theme.spacing(1.5),
       zIndex: 3,
+      borderRadius: '16px',
+      overflow: 'hidden',
+      boxShadow: theme.shadows[4],
     },
     [theme.breakpoints.down('md')]: {
       height: '100%',
@@ -41,6 +44,7 @@ const useStyles = makeStyles()((theme) => ({
   header: {
     pointerEvents: 'auto',
     zIndex: 6,
+    borderBottom: `1px solid ${theme.palette.divider}`,
   },
   footer: {
     pointerEvents: 'auto',
@@ -124,7 +128,7 @@ const MainPage = () => {
         </Suspense>
       )}
       <div className={classes.sidebar}>
-        <Paper square elevation={3} className={classes.header}>
+        <Paper square elevation={0} className={classes.header}>
           <MainToolbar
             filteredDevices={filteredDevices}
             devicesOpen={devicesOpen}

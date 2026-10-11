@@ -2,6 +2,7 @@ import { makeStyles } from 'tss-react/mui';
 
 export default makeStyles()((theme) => ({
   table: {
+    flexShrink: 0,
     marginBottom: theme.spacing(10),
   },
   columnAction: {
@@ -10,12 +11,14 @@ export default makeStyles()((theme) => ({
   },
   container: {
     marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(3),
   },
   buttons: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
     display: 'flex',
-    justifyContent: 'space-evenly',
+    justifyContent: 'flex-end',
+    gap: theme.spacing(2),
     '& > *': {
       flexBasis: '33%',
     },

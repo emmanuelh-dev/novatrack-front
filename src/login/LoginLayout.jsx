@@ -6,7 +6,8 @@ const useStyles = makeStyles()((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100%',
+    minHeight: '100%',
+    padding: theme.spacing(3, 2),
     background: theme.palette.background.default,
   },
   paper: {
@@ -15,7 +16,9 @@ const useStyles = makeStyles()((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     padding: theme.spacing(4),
-    boxShadow: '0px 8px 24px rgba(0, 0, 0, 0.12)',
+    width: '100%',
+    maxWidth: theme.spacing(60),
+    boxShadow: theme.shadows[3],
     borderRadius: theme.spacing(2),
   },
   form: {

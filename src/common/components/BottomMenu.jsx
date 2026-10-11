@@ -11,8 +11,10 @@ import {
   Badge,
 } from '@mui/material';
 
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import DescriptionIcon from '@mui/icons-material/Description';
 import SettingsIcon from '@mui/icons-material/Settings';
+import RouteIcon from '@mui/icons-material/Route';
 import MapIcon from '@mui/icons-material/Map';
 import PersonIcon from '@mui/icons-material/Person';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
@@ -22,7 +24,7 @@ import { useTranslation } from './LocalizationProvider';
 import { useRestriction } from '../util/permissions';
 import { nativePostMessage } from './NativeInterface';
 
-const BottomMenu = () => {
+const BottomMenu = ({ compact = false }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -47,6 +49,8 @@ const BottomMenu = () => {
     if (location.pathname.startsWith('/reports')) {
       return 'reports';
     }
+    if (location.pathname === '/routes') return 'routes';
+    if (location.pathname === '/dashboard') return 'dashboard';
     if (location.pathname === '/') {
       return 'map';
     }
@@ -92,6 +96,12 @@ const BottomMenu = () => {
 
   const handleSelection = (event, value) => {
     switch (value) {
+      case 'routes':
+        navigate('/routes');
+        break;
+      case 'dashboard':
+        navigate('/dashboard');
+        break;
       case 'map':
         navigate('/');
         break;
@@ -127,7 +137,27 @@ const BottomMenu = () => {
 
   return (
     <Paper square elevation={3}>
-      <BottomNavigation value={currentSelection()} onChange={handleSelection} showLabels>
+      <BottomNavigation
+        value={currentSelection()}
+        onChange={handleSelection}
+        showLabels
+        sx={{
+          ...(compact && { flexDirection: 'column', height: 'auto' }),
+          '& .MuiBottomNavigationAction-root': {
+            minWidth: 0,
+            ...(compact && { minHeight: 44, py: 1 }),
+          },
+          ...(compact && {
+            '& .MuiBottomNavigationAction-label': {
+              position: 'absolute',
+              width: 1,
+              height: 1,
+              overflow: 'hidden',
+              clipPath: 'inset(50%)',
+            },
+          }),
+        }}
+      >
         <BottomNavigationAction
           label={t('mapTitle')}
           icon={
@@ -137,6 +167,12 @@ const BottomMenu = () => {
           }
           value="map"
         />
+        <BottomNavigationAction
+          label={t('dashboardTitle')}
+          icon={<DashboardIcon />}
+          value="dashboard"
+        />
+        <BottomNavigationAction label={t('routingNav')} icon={<RouteIcon />} value="routes" />
         {!disableReports && (
           <BottomNavigationAction
             label={t('reportTitle')}

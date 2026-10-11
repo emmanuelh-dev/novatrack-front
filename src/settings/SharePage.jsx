@@ -54,7 +54,7 @@ const SharePage = () => {
           </AccordionSummary>
           <AccordionDetails className={classes.details}>
             <TextField
-              value={item.name}
+              value={item?.name || ''}
               label={t(type === 'group' ? 'groupDialog' : 'sharedDevice')}
               disabled
             />
@@ -64,7 +64,7 @@ const SharePage = () => {
               value={expiration}
               onChange={(e) => setExpiration(e.target.value)}
             />
-            <Button variant="outlined" color="primary" onClick={handleShare}>
+            <Button variant="outlined" color="primary" onClick={handleShare} disabled={!item}>
               {t('reportShow')}
             </Button>
             <TextField

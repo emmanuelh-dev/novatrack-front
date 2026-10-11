@@ -52,7 +52,11 @@ const CollectionActions = ({ itemId, editPath, endpoint, onReload, customActions
     <>
       {phone ? (
         <>
-          <IconButton size="small" onClick={(event) => setMenuAnchorEl(event.currentTarget)}>
+          <IconButton
+            aria-label={t('sharedActionType')}
+            size="small"
+            onClick={(event) => setMenuAnchorEl(event.currentTarget)}
+          >
             <MoreVertIcon fontSize="small" />
           </IconButton>
           <Menu open={!!menuAnchorEl} anchorEl={menuAnchorEl} onClose={() => setMenuAnchorEl(null)}>
