@@ -1,4 +1,6 @@
 {
+  "userWhatsappDestinations": "WhatsApp: números o grupos",
+  "userWhatsappDestinationsHelp": "Separa los destinos con comas. Usa el ID completo del grupo, incluido @g.us. Recibirán las notificaciones del canal SMS.",
   "sharedLoading": "Cargando…",
   "sharedHide": "Ocultar",
   "sharedSave": "Guardar",

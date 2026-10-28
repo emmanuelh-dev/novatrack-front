@@ -197,7 +197,9 @@ const UserPage = () => {
               <TextField
                 value={item.phone || ''}
                 onChange={(e) => setItem({ ...item, phone: e.target.value })}
-                label={t('sharedPhone')}
+                label={t('userWhatsappDestinations')}
+                helperText={t('userWhatsappDestinationsHelp')}
+                placeholder="521234567890, 120363000000000000@g.us"
               />
               <FormControl>
                 <InputLabel>{t('mapDefault')}</InputLabel>
