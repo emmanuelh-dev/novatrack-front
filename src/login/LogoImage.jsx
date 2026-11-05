@@ -23,7 +23,7 @@ const LogoImage = ({ color }) => {
   return (
     <div className={classes.container}>
       <span className={classes.text} style={{ color: color || theme.palette.text.primary }}>
-        ANACONDA
+        ANACONDDA
       </span>
     </div>
   );

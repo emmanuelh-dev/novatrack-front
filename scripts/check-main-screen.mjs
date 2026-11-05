@@ -9,7 +9,7 @@ const browser = await chromium.launch({
   executablePath: process.env.CHROMIUM_PATH,
   args: ['--no-sandbox'],
 });
-const output = process.env.SCREENSHOT_DIR || '/tmp/novatrack-main-screen';
+const output = process.env.SCREENSHOT_DIR || '/tmp/anacondda-main-screen';
 await mkdir(output, { recursive: true });
 const devices = [
   { id: 1, name: 'Unidad 01 · Reparto Centro', status: 'online', category: 'truck' },

@@ -5,7 +5,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { placePoint } from '../src/routes/routePlan.js';
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const base = process.env.PREVIEW_URL || 'http://127.0.0.1:18769';
-const output = process.env.SCREENSHOT_DIR || '/tmp/novatrack-trips-ui';
+const output = process.env.SCREENSHOT_DIR || '/tmp/anacondda-trips-ui';
 await mkdir(output, { recursive: true });
 const browser = await chromium.launch({
   executablePath: process.env.CHROMIUM_PATH,

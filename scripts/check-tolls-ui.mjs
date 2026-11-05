@@ -5,7 +5,7 @@ import { Buffer } from 'node:buffer';
 import { mkdir, writeFile } from 'node:fs/promises';
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const base = process.env.PREVIEW_URL || 'http://127.0.0.1:18769';
-const output = process.env.SCREENSHOT_DIR || '/tmp/novatrack-tolls-ui';
+const output = process.env.SCREENSHOT_DIR || '/tmp/anacondda-tolls-ui';
 await mkdir(output, { recursive: true });
 const browser = await chromium.launch({
   executablePath: process.env.CHROMIUM_PATH,
