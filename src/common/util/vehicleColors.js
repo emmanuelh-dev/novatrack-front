@@ -1,11 +1,11 @@
 export const vehicleColors = [
-  { id: 'white', hex: '#f5f5f2', shades: ['#8e9ca8', '#eef3f6', '#ffffff', '#d9e2e8', '#7d8c99'] },
-  { id: 'grey', hex: '#939ba4', shades: ['#4b5662', '#a0aab5', '#d0d9e1', '#89949f', '#404b57'] },
-  { id: 'black', hex: '#24272c', shades: ['#171b21', '#4b5561', '#7d8998', '#343d48', '#12171d'] },
+  { id: 'white', hex: '#f5f5f2', shades: ['#acb3b8', '#ffffff', '#ffffff', '#d9e2e8', '#b4babf'] },
+  { id: 'grey', hex: '#828589', shades: ['#475059', '#4f5153', '#d0d9e1', '#89949f', '#404b57'] },
+  { id: 'black', hex: '#24272c', shades: ['#171b21', '#4b5561', '#767d85', '#343d48', '#12171d'] },
   { id: 'blue', hex: '#165aff', shades: ['#123394', '#2465ff', '#4b82ff', '#0d53f5', '#102785'] },
-  { id: 'orange', hex: '#ff7900', shades: ['#a14300', '#ff8508', '#ffae24', '#f66a00', '#833400'] },
-  { id: 'yellow', hex: '#ffd000', shades: ['#a77500', '#ffd000', '#ffe32a', '#f5c000', '#855a00'] },
-  { id: 'red', hex: '#e5163c', shades: ['#7a0a22', '#ee173c', '#ff3c5e', '#d90e31', '#640519'] },
+  { id: 'orange', hex: '#ff7900', shades: ['#de4600', '#ff7700', '#ffae24', '#f66a00', '#a14102'] },
+  { id: 'yellow', hex: '', shades: ['#a77500', '', '#ffe32a', '#f5c000', '#855a00'] },
+  { id: 'red', hex: '#e5163c', shades: ['#9e0606', '#ee173c', '#ff3c5e', '#d90e31', '#640505'] },
 ];
 
 export const vehicleColor = (value) =>
