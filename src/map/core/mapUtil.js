@@ -53,7 +53,7 @@ const canvasTintImage = (image, color) => {
   return canvas;
 };
 
-export const prepareIcon = (background, icon, color) => {
+export const prepareIcon = (background, icon, color, backgroundColor, preserveColor = false) => {
   const canvas = document.createElement('canvas');
   canvas.width = background.width * devicePixelRatio;
   canvas.height = background.height * devicePixelRatio;
@@ -61,14 +61,21 @@ export const prepareIcon = (background, icon, color) => {
   canvas.style.height = `${background.height}px`;
 
   const context = canvas.getContext('2d');
-  context.drawImage(background, 0, 0, canvas.width, canvas.height);
+  if (!preserveColor) context.drawImage(background, 0, 0, canvas.width, canvas.height);
+  if (backgroundColor) {
+    context.globalCompositeOperation = 'source-atop';
+    context.fillStyle = backgroundColor;
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    context.globalCompositeOperation = 'source-over';
+  }
 
   if (icon) {
-    const iconRatio = 0.5;
-    const imageWidth = canvas.width * iconRatio;
-    const imageHeight = canvas.height * iconRatio;
+    const iconRatio = preserveColor ? 1 : 0.5;
+    const scale = Math.min(canvas.width / icon.width, canvas.height / icon.height) * iconRatio;
+    const imageWidth = preserveColor ? icon.width * scale : canvas.width * iconRatio;
+    const imageHeight = preserveColor ? icon.height * scale : canvas.height * iconRatio;
     context.drawImage(
-      canvasTintImage(icon, color),
+      preserveColor ? icon : canvasTintImage(icon, color),
       (canvas.width - imageWidth) / 2,
       (canvas.height - imageHeight) / 2,
       imageWidth,

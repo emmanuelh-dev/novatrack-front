@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" fill="none">
+  <defs>
+    <linearGradient id="body" x1="31" y1="0" x2="65" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#174877"/><stop offset=".15" stop-color="#2684cd"/><stop offset=".35" stop-color="#65b8f2"/><stop offset=".65" stop-color="#3d9be5"/><stop offset=".88" stop-color="#2684cd"/><stop offset="1" stop-color="#173f69"/></linearGradient>
+    <linearGradient id="glass" x1="37" y1="27" x2="60" y2="54" gradientUnits="userSpaceOnUse"><stop stop-color="#18252d"/><stop offset=".5" stop-color="#3c4b54"/><stop offset="1" stop-color="#19262f"/></linearGradient>
+    <linearGradient id="bed" x1="34" y1="0" x2="62" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#19242b"/><stop offset=".16" stop-color="#43515a"/><stop offset=".75" stop-color="#38464f"/><stop offset="1" stop-color="#1d2931"/></linearGradient>
+  </defs>
+  <g transform="translate(0 -2.88) scale(1 1.06)">
+  <path d="M39 5.5h18c4.5 0 6.2 3 6.8 7.5l.7 12-.4 32 .1 25.5c0 4.4-1.5 6-5.5 6.5H37.3c-4-.5-5.5-2.1-5.5-6.5l.1-25.5-.4-32 .7-12c.6-4.5 2.3-7.5 6.8-7.5Z" fill="url(#body)" stroke="#193c58" stroke-width=".9"/>
+  <path d="M36.5 10.5q11.5-3 23 0l1.3 14.8q-12.8-3.6-25.6 0Z" fill="url(#body)" stroke="#28689a" stroke-width=".6"/>
+  <path d="M37.3 12.7q-1.5 5-1.1 10m22.5-10q1.5 5 1.1 10" stroke="#effaff" stroke-opacity=".26" stroke-width=".8" stroke-linecap="round"/>
+  <path d="M34 27.5q14-4.8 28 0L57.2 39q-9.2-2-18.4 0Z" fill="url(#glass)" stroke="#17252f" stroke-width="1"/>
+  <path d="m35.5 28.8 7-1.2-3.2 9.8-.9.1Z" fill="#d0e0e7" opacity=".17"/>
+  <path d="M39 40q9-2 18 0l.6 13.7q-9.6 1.2-19.2 0Z" fill="url(#body)" stroke="#28689a" stroke-width=".5"/>
+  <path d="M40 41.4q8-1.4 16 0m-15.6 10.7h15.2" stroke="#effaff" stroke-opacity=".28" stroke-width=".7" stroke-linecap="round"/>
+  <path d="m33.6 32 4 8-.3 5.5-3.6 1.5Zm.1 17 3.6-1.2-.1 6.4-3.4 1.5Zm28.7-17-4 8 .3 5.5 3.6 1.5Zm-.1 17-3.6-1.2.1 6.4 3.4 1.5Z" fill="url(#glass)" stroke="#253440" stroke-width=".5" stroke-linejoin="round"/>
+  <path d="M38.5 55.5q9.5 1 19 0l3 2.5h-25Z" fill="#23313b"/>
+  <path d="M32.7 32.5v22m30.6-22v22" stroke="#effaff" stroke-opacity=".28" stroke-width=".6"/>
+  <path d="m32 31.5-5 1.8-.5 2.5 5.6-.8Zm32 0 5 1.8.5 2.5-5.6-.8Z" fill="url(#body)" stroke="#193c58" stroke-width=".7"/>
+  <path d="M35 60h26v23.8q0 1.6-1.5 1.6h-23q-1.5 0-1.5-1.6Z" fill="url(#bed)" stroke="#17252f" stroke-width=".9"/>
+  <path d="M35 60v23.8q0 1.6 1.5 1.6h23q1.5 0 1.5-1.6V60l-2 2v7.7l-2 1.5v6.3l2 1.5v3.8H37V79l2-1.5v-6.3l-2-1.5V62Z" fill="#52616b"/>
+  <path d="M40.4 63v18m3.8-18v18M48 63v18m3.8-18v18m3.8-18v18" stroke="#1a2831" stroke-opacity=".55" stroke-width=".7"/>
+  <path d="M33.4 60.8v22.8m29.2-22.8v22.8" stroke="#effaff" stroke-opacity=".48" stroke-width=".8" stroke-linecap="round"/>
+  <path d="M36 87h24" stroke="#173f69" stroke-width="1.2" stroke-linecap="round"/>
+  <path d="M34.4 9.5q1.2-2 4-2l-1.2 3.4-2.9 1.5Zm27.2 0q-1.2-2-4-2l1.2 3.4 2.9 1.5Z" fill="#effaff" stroke="#a7b6be" stroke-width=".4"/>
+  <path d="M33.2 83.4v2.8l2.3 1.2v-4Zm29.6 0v2.8l-2.3 1.2v-4Z" fill="#c92d39"/>
+  <path d="M39 6.7h18" stroke="#effaff" stroke-opacity=".6" stroke-width=".8" stroke-linecap="round"/>
+  </g>
+</svg>

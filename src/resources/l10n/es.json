@@ -671,7 +671,7 @@
   "categoryTrain": "Trén",
   "categoryTram": "Tranvía",
   "categoryTruck": "Camión",
-  "categoryVan": "Furgoneta",
+  "categoryVan": "Van",
   "categoryScooter": "Moto",
   "maintenanceStart": "Iniciar",
   "maintenancePeriod": "Período",
@@ -957,5 +957,18 @@
   "tripVisitStatedeparted": "Salida detectada",
   "tripVisitStateincomplete": "Observación incompleta",
   "tripVisitStateunrecorded": "Salida sin registro",
-  "tripVisitHelp": "Desde la llegada confirmada hasta la primera salida observada. Huecos de GPS no cuentan como permanencia continua. Cerrar el viaje no registra una salida."
+  "tripVisitHelp": "Desde la llegada confirmada hasta la primera salida observada. Huecos de GPS no cuentan como permanencia continua. Cerrar el viaje no registra una salida.",
+  "categoryBackhoe": "Retroexcavadora",
+  "categoryDashcam": "Cámara vehicular (dashcam)",
+  "categoryPickup": "Camioneta pickup",
+  "categoryDumpTruck": "Maroma (volteo)",
+  "categoryTruckTractor": "Tractocamión",
+  "deviceIconColor": "Color del icono",
+  "vehicleColorwhite": "Blanco",
+  "vehicleColorgrey": "Gris",
+  "vehicleColorblack": "Negro",
+  "vehicleColorblue": "Azul",
+  "vehicleColororange": "Naranja",
+  "vehicleColoryellow": "Amarillo",
+  "vehicleColorred": "Rojo"
 }

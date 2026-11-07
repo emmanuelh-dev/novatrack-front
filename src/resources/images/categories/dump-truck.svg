@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" fill="none">
+  <defs>
+    <linearGradient id="body" x1="27" y1="0" x2="69" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#174877"/><stop offset=".16" stop-color="#3d9be5"/><stop offset=".43" stop-color="#65b8f2"/><stop offset=".8" stop-color="#2684cd"/><stop offset="1" stop-color="#173f69"/></linearGradient>
+    <linearGradient id="glass" x1="35" y1="12" x2="61" y2="24" gradientUnits="userSpaceOnUse"><stop stop-color="#40505a"/><stop offset=".5" stop-color="#19262f"/><stop offset="1" stop-color="#34434d"/></linearGradient>
+    <linearGradient id="bed" x1="31" y1="0" x2="65" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#24313a"/><stop offset=".22" stop-color="#56636b"/><stop offset=".75" stop-color="#46545e"/><stop offset="1" stop-color="#26343e"/></linearGradient>
+  </defs>
+  <g transform="translate(0 -2.75) scale(1 1.06)">
+  <path d="M29 59h38m-38 21h38" stroke="#465762" stroke-width="2"/>
+  <path d="M36 5.5h24q4.5 0 4.5 5l.5 8v10H31v-10l.5-8q0-5 4.5-5Z" fill="url(#body)" stroke="#193c58" stroke-width=".9"/>
+  <path d="M35 8q13-2 26 0" stroke="#effaff" stroke-opacity=".5" stroke-width=".8" stroke-linecap="round"/>
+  <path d="M33.5 12.5q14.5-2.5 29 0L58 22q-10-1.5-20 0Z" fill="url(#glass)" stroke="#17252f" stroke-width=".9" stroke-linejoin="round"/>
+  <path d="m35 13.5 7-.8-4.2 7.3-1.2.1Z" fill="#effaff" opacity=".14"/>
+  <path d="m33 18 4 5v4l-4 .5Zm30 0-4 5v4l4 .5Z" fill="url(#glass)" stroke="#253440" stroke-width=".5" stroke-linejoin="round"/>
+  <path d="M38 23q10-1.5 20 0l.5 5h-21Z" fill="url(#body)"/>
+  <path d="M39 24q9-1 18 0" stroke="#effaff" stroke-opacity=".3" stroke-width=".8" stroke-linecap="round"/>
+  <path d="m31 14-4 1v7h1.5v-5l2.5-.5m34-2.5 4 1v7h-1.5v-5l-2.5-.5" stroke="#26343e" stroke-width="1.1" stroke-linejoin="round"/>
+  <path d="M33.5 8h4v3h-4Zm25 0h4v3h-4Z" fill="#effaff"/>
+  <path d="M31 29h34v4H31Z" fill="#28353f"/>
+  <path d="M28 32h40q1 0 1 1v55H27V33q0-1 1-1Z" fill="url(#body)" stroke="#193c58" stroke-width="1"/>
+  <path d="M31 37h34v46H31Z" fill="url(#bed)" stroke="#26343e" stroke-width="1"/>
+  <path d="m31 37 2 2h30l2-2m-34 0v46l2-2V39m32-2v46l-2-2V39" stroke="#a8b4bc" stroke-opacity=".45" stroke-width=".8" stroke-linejoin="round"/>
+  <path d="M34 49h28M34 61h28M34 73h28" stroke="#273640" stroke-opacity=".65" stroke-width=".9"/><path d="M34 48h28M34 60h28M34 72h28" stroke="#87969f" stroke-opacity=".28" stroke-width=".7"/>
+  <path d="M29 34h38m-38 51h38m-38-48v45m38-45v45" stroke="#effaff" stroke-opacity=".35" stroke-width=".8" stroke-linecap="round"/>
+  <path d="M35 84v4m26-4v4" stroke="#a4b0b7" stroke-width="1.8"/><path d="M28 87h5m30 0h5" stroke="#c92d39" stroke-width="1.8"/>
+  </g>
+</svg>

@@ -9,6 +9,8 @@ import {
   Checkbox,
   TextField,
   Button,
+  Box,
+  MenuItem,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import FileInput from '../common/components/FileInput';
@@ -25,6 +27,7 @@ import { useCatch } from '../reactHelper';
 import useSettingsStyles from './common/useSettingsStyles';
 import QrCodeDialog from '../common/components/QrCodeDialog';
 import fetchOrThrow from '../common/util/fetchOrThrow';
+import { vehicleColors, vehicleColor } from '../common/util/vehicleColors';
 
 const DevicePage = () => {
   const { classes } = useSettingsStyles();
@@ -80,6 +83,60 @@ const DevicePage = () => {
                 onChange={(event) => setItem({ ...item, name: event.target.value })}
                 label={t('sharedName')}
               />
+              <Box
+                sx={{
+                  display: 'grid',
+                  gridTemplateColumns: 'minmax(0, 1fr) minmax(120px, 0.7fr)',
+                  gap: 2,
+                }}
+              >
+                <SelectField
+                  value={item.category || 'default'}
+                  onChange={(event) => setItem({ ...item, category: event.target.value })}
+                  data={deviceCategories
+                    .map((category) => ({
+                      id: category,
+                      name:
+                        t(`category${category.replace(/^\w/, (c) => c.toUpperCase())}`) || category,
+                    }))
+                    .sort((a, b) => a.name.localeCompare(b.name))}
+                  label={t('deviceCategory')}
+                />
+                <TextField
+                  select
+                  label={t('deviceIconColor')}
+                  value={vehicleColor(item.attributes?.vehicleIconColor)}
+                  onChange={(event) =>
+                    setItem({
+                      ...item,
+                      attributes: { ...item.attributes, vehicleIconColor: event.target.value },
+                    })
+                  }
+                >
+                  {vehicleColors.map(({ id, hex }) => (
+                    <MenuItem key={id} value={id}>
+                      <Box
+                        component="span"
+                        sx={{ display: 'inline-flex', alignItems: 'center', gap: 1 }}
+                      >
+                        <Box
+                          component="span"
+                          aria-hidden="true"
+                          sx={{
+                            width: 16,
+                            height: 16,
+                            borderRadius: '50%',
+                            bgcolor: hex,
+                            boxShadow: 'inset 0 0 0 1px rgba(128,128,128,0.6)',
+                            flexShrink: 0,
+                          }}
+                        />
+                        {t(`vehicleColor${id}`)}
+                      </Box>
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Box>
               <TextField
                 value={item.uniqueId || ''}
                 onChange={(event) => setItem({ ...item, uniqueId: event.target.value })}
@@ -114,17 +171,6 @@ const DevicePage = () => {
                 value={item.contact || ''}
                 onChange={(event) => setItem({ ...item, contact: event.target.value })}
                 label={t('deviceContact')}
-              />
-              <SelectField
-                value={item.category || 'default'}
-                onChange={(event) => setItem({ ...item, category: event.target.value })}
-                data={deviceCategories
-                  .map((category) => ({
-                    id: category,
-                    name: t(`category${category.replace(/^\w/, (c) => c.toUpperCase())}`),
-                  }))
-                  .sort((a, b) => a.name.localeCompare(b.name))}
-                label={t('deviceCategory')}
               />
               <SelectField
                 value={item.calendarId}

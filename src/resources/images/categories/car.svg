@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" fill="none">
+  <defs>
+    <linearGradient id="body" x1="28" y1="48" x2="68" y2="48" gradientUnits="userSpaceOnUse"><stop stop-color="#174877"/><stop offset=".16" stop-color="#3d9be5"/><stop offset=".43" stop-color="#65b8f2"/><stop offset=".79" stop-color="#2684cd"/><stop offset="1" stop-color="#173f69"/></linearGradient>
+    <linearGradient id="glass" x1="34" y1="26" x2="61" y2="80" gradientUnits="userSpaceOnUse"><stop stop-color="#40505a"/><stop offset=".48" stop-color="#17242d"/><stop offset="1" stop-color="#34434d"/></linearGradient>
+    <linearGradient id="shine" x1="35" y1="13" x2="60" y2="80" gradientUnits="userSpaceOnUse"><stop stop-color="#effaff" stop-opacity=".33"/><stop offset=".52" stop-color="#effaff" stop-opacity="0"/><stop offset="1" stop-color="#effaff" stop-opacity=".12"/></linearGradient>
+  </defs>
+  <g transform="translate(0 -2.88) scale(1 1.06)">
+  <path d="M37 7Q48 4 59 7C67 10 69 20 69 33L68 72Q68 87 61 90Q48 93 35 90C29 88 28 81 28 72L27 33C27 20 29 10 37 7Z" fill="#0d1821" opacity=".18"/>
+  <path d="M37 6Q48 3 59 6C65 8 67 16 68 27L67 72C67 81 66 86 60 88Q48 91 36 88C30 86 29 81 29 72L28 27C29 16 31 8 37 6Z" fill="url(#body)" stroke="#193c58" stroke-width="1"/>
+  <path d="M35 10Q48 6 61 10M33 85Q48 89 63 85" stroke="#effaff" stroke-opacity=".48" stroke-width="1" stroke-linecap="round"/>
+  <path d="M35 13Q48 9 61 13L63 25Q48 20 33 25Z" fill="url(#shine)"/>
+  <path d="m34 15-1 9m29-9 1 9" stroke="#174877" stroke-opacity=".5" stroke-width=".7" stroke-linecap="round"/>
+  <path d="M31 12q2-3 5-3l-3 9-3 2Zm34 0q-2-3-5-3l3 9 3 2Z" fill="#e8f8ff" stroke="#b5c5ce" stroke-width=".6"/>
+  <path d="M31.5 29Q48 21 64.5 29L58.5 43Q48 40 37.5 43Z" fill="url(#glass)" stroke="#18232b" stroke-width="1"/>
+  <path d="M33 30q7-3.5 14-3.5l-7 14-2 .5Z" fill="#effaff" opacity=".14"/>
+  <path d="M31 34.5 36 45l-.1 11.5-5.5 3Zm-.6 28 5.5-2.5.6 7.5-4.6 9Zm34.6-28L60 45l.1 11.5 5.5 3Zm.6 28-5.5-2.5-.6 7.5 4.6 9Z" fill="url(#glass)" stroke="#253440" stroke-width=".6" stroke-linejoin="round"/>
+  <path d="M38 43.5q10-2.5 20 0l.5 22q-10.5 2.5-21 0Z" fill="url(#body)" stroke="#28689a" stroke-width=".5"/>
+  <path d="M39 44.5q9-2 18 0l.4 20q-9.4 2-18.8 0Z" fill="url(#shine)"/>
+  <path d="M41 49q7-1 14 0l.2 10q-7.2 1-14.4 0Z" fill="url(#glass)" stroke="#28689a" stroke-width=".5"/>
+  <path d="M37.5 68q10.5 2.5 21 0l5 11q-15.5 7-31 0Z" fill="url(#glass)" stroke="#18232b" stroke-width="1"/>
+  <path d="m38 70 4 .8-5 7.7-3-.6Z" fill="#effaff" opacity=".12"/>
+  <path d="M30 33q1 25 1 42m35-42q-1 25-1 42" stroke="#effaff" stroke-opacity=".35" stroke-width=".6" stroke-linecap="round"/>
+  <path d="m29 34-5 3v3l5-2m38-4 5 3v3l-5-2" fill="url(#body)" stroke="#253440" stroke-width=".7" stroke-linejoin="round"/>
+  <path d="m30 80 4 2 1 4-4-1Zm36 0-4 2-1 4 4-1Z" fill="#c62238" stroke="#692631" stroke-width=".5"/>
+  <path d="M39 87h18" stroke="#253440" stroke-opacity=".7" stroke-width="1" stroke-linecap="round"/>
+  </g>
+</svg>

@@ -957,5 +957,18 @@
   "tripVisitStatedeparted": "Departure detected",
   "tripVisitStateincomplete": "Incomplete observation",
   "tripVisitStateunrecorded": "Departure not recorded",
-  "tripVisitHelp": "From confirmed arrival to the first observed departure. GPS gaps do not prove continuous presence. Closing a trip does not record a departure."
+  "tripVisitHelp": "From confirmed arrival to the first observed departure. GPS gaps do not prove continuous presence. Closing a trip does not record a departure.",
+  "categoryBackhoe": "Backhoe",
+  "categoryDashcam": "Dashcam",
+  "categoryPickup": "Pickup",
+  "categoryDumpTruck": "Dump truck",
+  "categoryTruckTractor": "Semi-truck",
+  "deviceIconColor": "Icon color",
+  "vehicleColorwhite": "White",
+  "vehicleColorgrey": "Grey",
+  "vehicleColorblack": "Black",
+  "vehicleColorblue": "Blue",
+  "vehicleColororange": "Orange",
+  "vehicleColoryellow": "Yellow",
+  "vehicleColorred": "Red"
 }

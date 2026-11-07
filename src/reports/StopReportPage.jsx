@@ -36,7 +36,7 @@ import MapCamera from '../map/MapCamera';
 import AddressValue from '../common/components/AddressValue';
 import TableShimmer from '../common/components/TableShimmer';
 import MapGeofence from '../map/MapGeofence';
-import { mapIconKey } from '../map/core/preloadImages';
+import { vehicleImageKey } from '../map/core/preloadImages';
 import scheduleReport from './common/scheduleReport';
 import MapScale from '../map/MapScale';
 import fetchOrThrow from '../common/util/fetchOrThrow';
@@ -159,7 +159,11 @@ const StopReportPage = () => {
   const selectedMarker = selectedItem && {
     latitude: selectedItem.latitude,
     longitude: selectedItem.longitude,
-    image: `${mapIconKey(devices[selectedItem.deviceId]?.category)}-neutral`,
+    image: vehicleImageKey(
+      devices[selectedItem.deviceId]?.category,
+      devices[selectedItem.deviceId]?.attributes?.vehicleIconColor,
+      'neutral',
+    ),
     title: formatTime(selectedItem.startTime, 'seconds'),
   };
 

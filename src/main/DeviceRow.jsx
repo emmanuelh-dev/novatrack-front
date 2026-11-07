@@ -28,7 +28,7 @@ import {
   getStatusColor,
 } from '../common/util/formatter';
 import { useTranslation } from '../common/components/LocalizationProvider';
-import { mapIconKey, mapIcons } from '../map/core/preloadImages';
+import { vehicleIconUrl, isVehicleIcon } from '../map/core/preloadImages';
 import { useAdministrator } from '../common/util/permissions';
 import EngineIcon from '../resources/images/data/engine.svg?react';
 import { useAttributePreference } from '../common/util/preferences';
@@ -43,6 +43,8 @@ const useStyles = makeStyles()((theme) => ({
     width: '25px',
     height: '25px',
     filter: 'brightness(0) invert(1)',
+    objectFit: 'contain',
+    '&[data-vehicle="true"]': { filter: 'none', width: '36px', height: '36px' },
   },
   batteryText: {
     fontSize: '0.75rem',
@@ -81,6 +83,7 @@ const DeviceRow = ({ devices, index, style }) => {
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
 
   const item = devices[index];
+  const icon = vehicleIconUrl(item.category, item.attributes?.vehicleIconColor);
   const position = useSelector((state) => state.session.positions[item.id]);
 
   const devicePrimary = useAttributePreference('devicePrimary', 'name');
@@ -135,8 +138,10 @@ const DeviceRow = ({ devices, index, style }) => {
         className={classes.row}
       >
         <ListItemAvatar sx={{ minWidth: 48 }}>
-          <Avatar sx={{ width: 36, height: 36 }}>
-            <img className={classes.icon} src={mapIcons[mapIconKey(item.category)]} alt="" />
+          <Avatar
+            sx={{ width: 36, height: 36, ...(isVehicleIcon(icon) && { bgcolor: 'transparent' }) }}
+          >
+            <img className={classes.icon} src={icon} data-vehicle={isVehicleIcon(icon)} alt="" />
           </Avatar>
         </ListItemAvatar>
         <ListItemText

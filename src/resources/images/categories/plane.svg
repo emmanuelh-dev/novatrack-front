@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" fill="none">
+  <defs>
+    <linearGradient id="wings" x1="7" y1="0" x2="89" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#174877"/><stop offset=".23" stop-color="#3d9be5"/><stop offset=".45" stop-color="#65b8f2"/><stop offset=".78" stop-color="#2684cd"/><stop offset="1" stop-color="#173f69"/></linearGradient>
+    <linearGradient id="body" x1="40" y1="0" x2="56" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#174877"/><stop offset=".2" stop-color="#3d9be5"/><stop offset=".44" stop-color="#65b8f2"/><stop offset=".8" stop-color="#2684cd"/><stop offset="1" stop-color="#173f69"/></linearGradient>
+    <linearGradient id="glass" x1="43" y1="17" x2="53" y2="27" gradientUnits="userSpaceOnUse"><stop stop-color="#42535e"/><stop offset="1" stop-color="#15242e"/></linearGradient>
+  </defs>
+  <g transform="translate(0 -3) scale(1 1.06)">
+    <path d="M48 5.5c5 0 7 9.5 7 17.5v10l33 21q2 1 1 6L55 49l-2 26 12 9v4l-17-4-17 4v-4l12-9-2-26L7 60q-1-5 1-6l33-21V23c0-8 2-17.5 7-17.5Z" fill="url(#wings)" stroke="#193c58" stroke-width="1" stroke-linejoin="round"/>
+    <path d="M29 43h6v13q-3 3-6 0Zm32 0h6v13q-3 3-6 0Z" fill="url(#body)" stroke="#193c58" stroke-width=".7"/>
+    <path d="M29.5 54h5m27 0h5" stroke="#26353f" stroke-width="2"/>
+    <path d="M48 5.5c5 0 7 9.5 7 17.5l-1 37-3 22q-3 4-6 0l-3-22-1-37c0-8 2-17.5 7-17.5Z" fill="url(#body)"/>
+    <path d="M44 17q4-4 8 0l1 7q-5-2-10 0Z" fill="url(#glass)" stroke="#1e303d" stroke-width=".7"/>
+    <path d="M48 15v7" stroke="#91a0ac" stroke-width=".6"/>
+    <path d="M45.5 9q-2 3-2 6m.2 12-.2 30m-32 1 27-10m20 0 27 10M34 85l9-5" stroke="#effaff" stroke-opacity=".4" stroke-width=".8" stroke-linecap="round"/>
+    <path d="M48 64v20" stroke="#173f69" stroke-width="2" stroke-linecap="round"/>
+    <path d="M47.7 65v16" stroke="#effaff" stroke-opacity=".35" stroke-width=".6"/>
+  </g>
+</svg>

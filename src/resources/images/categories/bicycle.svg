@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" fill="none">
+  <defs>
+    <linearGradient id="body" x1="36" y1="0" x2="60" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#174877"/><stop offset=".2" stop-color="#3d9be5"/><stop offset=".43" stop-color="#65b8f2"/><stop offset=".78" stop-color="#2684cd"/><stop offset="1" stop-color="#173f69"/></linearGradient>
+    <linearGradient id="saddle" x1="39" y1="0" x2="57" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#1a2730"/><stop offset=".45" stop-color="#45545f"/><stop offset="1" stop-color="#1e2b34"/></linearGradient>
+  </defs>
+  <g transform="translate(0 -1.824) scale(1 1.038)">
+  <g fill="#19232b" stroke="#91a0ac" stroke-width=".7"><rect x="44" y="5" width="8" height="25" rx="3.5"/><rect x="44" y="66" width="8" height="25" rx="3.5"/></g>
+  <path d="M46 8v19m4-19v19m-4 42v19m4-19v19" stroke="#697780" stroke-opacity=".65" stroke-width=".65"/>
+  <path d="m45 23-2 14m8-14 2 14m-11 23 3 15m9-15-3 15" stroke="#9baab4" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M48 25v11m0 25v15M34 55h28" stroke="#91a0ac" stroke-width="2" stroke-linecap="round"/>
+  <path d="m48 34-8 17 8 17 8-17Z" stroke="#193c58" stroke-width="5" stroke-linejoin="round"/>
+  <path d="m48 34-8 17 8 17 8-17Z" stroke="url(#body)" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M48 35v20" stroke="url(#body)" stroke-width="3" stroke-linecap="round"/>
+  <path d="m42 43 3-5" stroke="#effaff" stroke-opacity=".6" stroke-width=".8" stroke-linecap="round"/>
+  <path d="M31 55h6v4h-6Zm28-5h6v4h-6Z" fill="#354550" stroke="#91a0ac" stroke-width=".7" stroke-linejoin="round"/>
+  <path d="m47 55-9 2m11-4 9-1" stroke="#bac5cd" stroke-width="1.1"/>
+  <path d="M48 28v-5m-20 3 9-4q11 3 22 0l9 4" stroke="#9eafb9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m27 26 7 1m28 0 7-1" stroke="#263742" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M44 22h8" stroke="#effaff" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M46 52h4l1 8q7 2 7 6-10 3-20 0 0-4 7-6Z" fill="url(#saddle)" stroke="#1a2934" stroke-width=".9" stroke-linejoin="round"/>
+  <path d="M41 65q7-2 14 0" stroke="#91a0ac" stroke-opacity=".45" stroke-width=".7"/>
+  <path d="M45 78h6" stroke="#c52c3a" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+</svg>

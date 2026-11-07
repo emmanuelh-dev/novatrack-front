@@ -67,6 +67,21 @@ const MapMarkers = ({ markers, showTitles, cluster, direction, onClick, disabled
     },
   ];
 
+  const vehicleLayer = layers[0];
+  vehicleLayer.filter = ['all', ['!has', 'point_count'], ['!=', 'rotateIcon', true]];
+  layers.push({
+    ...vehicleLayer,
+    key: 'vehicles',
+    filter: ['all', ['!has', 'point_count'], ['==', 'rotateIcon', true]],
+    layout: {
+      ...vehicleLayer.layout,
+      'icon-size': iconScale * 1.05,
+      ...(showTitles ? { 'text-offset': [0, -2 * iconScale * 1.05] } : {}),
+      'icon-rotate': ['get', 'rotation'],
+      'icon-rotation-alignment': 'map',
+    },
+  });
+
   if (direction) {
     layers.push({
       key: 'direction',
