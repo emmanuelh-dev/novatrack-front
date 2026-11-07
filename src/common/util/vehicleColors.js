@@ -4,7 +4,7 @@ export const vehicleColors = [
   { id: 'black', hex: '#24272c', shades: ['#171b21', '#4b5561', '#767d85', '#343d48', '#12171d'] },
   { id: 'blue', hex: '#165aff', shades: ['#123394', '#2465ff', '#4b82ff', '#0d53f5', '#102785'] },
   { id: 'orange', hex: '#ff7900', shades: ['#de4600', '#ff7700', '#ffae24', '#f66a00', '#a14102'] },
-  { id: 'yellow', hex: '', shades: ['#a77500', '', '#ffe32a', '#f5c000', '#855a00'] },
+  { id: 'yellow', hex: '#fece11', shades: ['#a77500', '#fece11', '#ffe32a', '#f5c000', '#855a00'] },
   { id: 'red', hex: '#e5163c', shades: ['#9e0606', '#ee173c', '#ff3c5e', '#d90e31', '#640505'] },
 ];
 
